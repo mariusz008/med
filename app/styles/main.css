@@ -87,6 +87,7 @@ html, body {
   color: inherit;
 }
 .mdl-demo .mdl-card__actions_v1 {
+  position: relative;
   padding: 14px 140px;
   margin-top: 50px;
   color: black;
