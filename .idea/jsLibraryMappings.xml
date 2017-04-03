@@ -4,4 +4,3 @@
     <includedPredefinedLibrary name="Node.js Core" />
     <includedPredefinedLibrary name="WebGL" />
   </component>
-</project>
