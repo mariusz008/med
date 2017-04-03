@@ -28,6 +28,15 @@
     "sw-precache": "^3.2.0",
     "sw-toolbox": "^3.2.1"
   },
+ "dependencies": {
+	"body-parser": "*", 
+	"consolidate": "*",
+	"dust": "*", 
+	"dustjs-helpers": "*", 
+	"dustjs-linkedin": "*", 
+	"express": "*", 
+	"pg": "*"
+},
   "engines": {
     "node": ">=0.12"
   },
@@ -37,5 +46,22 @@
   },
   "eslintConfig": {
     "extends": "google"
-  }
+  },
+  "name": "med",
+  "description": "## Overview",
+  "version": "1.0.0",
+  "main": "gulpfile.babel.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mariusz008/med.git"
+  },
+  "author": "Mariusz Kaminski",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mariusz008/med/issues"
+  },
+  "homepage": "https://github.com/mariusz008/med#readme"
 }
