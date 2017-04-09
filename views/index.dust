@@ -1,0 +1,11 @@
+{>"layout" /}
+
+{<body}
+{#spec}
+  {specjalnosc}
+{/spec}
+<br/>
+{#miasta}
+{miasto}
+{/miasta}
+{/body}
