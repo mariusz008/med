@@ -3866,22 +3866,29 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  background-image: url("images/bg.jpg");
+  background-image: url("images/k2.jpg");
   background-size: cover;
   text-align: center;
   z-index: 1; }
 
+.menu-text {
+  font-family: 'Kaushan Script', cursive;
+  font-size: 27px; }
+
 .section--highlights {
   background: #42B7FB;
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2);
-  color: #fff; }
+  color: #ffae00; }
 .section--highlights .paragraph {
-  color: #fff; }
+  color: #ffae00; }
 
 .hero {
-  color: #fff;
-  font-size: 4.5rem;
+  color: #406553;
+  font-size: 2.75rem;
   font-weight: bold; }
+
+.text-right {
+  text-align: right; }
 
 .h1 {
   font-size: 3.5rem;
@@ -3897,10 +3904,11 @@ body {
   font-family: "Merriweather", serif;
   font-size: 1.125rem;
   line-height: 1.8;
-  color: #555; }
+  color: #ffae00; }
 .paragraph--intro {
   font-size: 1.375rem;
-  color: white; }
+  color: #ffae00;
+  font-weight: bold; }
 
 .paragraph--secondary {
   font-size: 22px; }

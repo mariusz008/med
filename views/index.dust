@@ -1,11 +1,24 @@
 {>"layout" /}
 
 {<body}
-{#spec}
-  {specjalnosc}
-{/spec}
-<br/>
-{#miasta}
-{miasto}
-{/miasta}
+
+  <div class="search">
+
+    <div class="large-5 small-5 columns">
+      <input type="text" placeholder="Find doctor">
+      {#spec}
+        {specjalnosc}
+      {/spec}
+    </div>
+
+    <div class="large-5 small-5 columns"><input type="text" placeholder="Find city"></div>
+    <div class="large-3 small-5 columns"></div>
+    <button class="button small">Szukaj</button>
+
+    <br/>
+    {#miasta}
+      {miasto}
+    {/miasta}
+  </div>
+
 {/body}

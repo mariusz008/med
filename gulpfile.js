@@ -28,12 +28,6 @@ gulp.task("connect", function() {
     root: "public",
     livereload: true
   });
-  // browserSync({
-  //   server: {
-  //     baseDir: 'app',
-  //   },
-  //   post: 3000
-  // });
 });
 
 gulp.task("html", function () {
