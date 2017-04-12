@@ -15,6 +15,14 @@ gulp.task("sass", function () {
     }))
     .pipe(gulp.dest("./public/"));
 });
+gulp.task("sass", function () {
+  return gulp.src("./app/style1.sass")
+    .pipe(plumber())
+    .pipe(sass({
+      includePaths: ['node_modules/foundation-sites/scss']
+    }))
+    .pipe(gulp.dest("./public/"));
+});
 
 gulp.task("jade", function() {
     return gulp.src("./app/index.jade")
@@ -22,6 +30,13 @@ gulp.task("jade", function() {
       .pipe(jade())
       .pipe(gulp.dest("./public/"));
 });
+gulp.task("jade", function() {
+  return gulp.src("./app/register.jade")
+    .pipe(plumber())
+    .pipe(jade())
+    .pipe(gulp.dest("./public/"));
+});
+
 
 gulp.task("connect", function() {
   connect.server({
@@ -34,9 +49,17 @@ gulp.task("html", function () {
   gulp.src("./public/index.html")
     .pipe(connect.reload());
 });
+gulp.task("html", function () {
+  gulp.src("./public/register.html")
+    .pipe(connect.reload());
+});
 
 gulp.task("css", function () {
   gulp.src("./public/style.css")
+    .pipe(connect.reload());
+});
+gulp.task("css", function () {
+  gulp.src("./public/style1.css")
     .pipe(connect.reload());
 });
 
