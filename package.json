@@ -39,7 +39,8 @@
     "dustjs-helpers": "*",
     "dustjs-linkedin": "*",
     "express": "*",
-    "pg": "*"
+    "pg": "*",
+    "connect": "latest"
   },
   "engines": {
     "node": ">=0.12"
@@ -55,7 +56,7 @@
   "name": "med",
   "description": "## Overview",
   "version": "1.0.0",
-  "main": "gulpfile.babel.js",
+  "main": "gulpfile.js",
   "directories": {
     "doc": "docs"
   },

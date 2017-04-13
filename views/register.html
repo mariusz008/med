@@ -14,7 +14,7 @@
   </nav>
 </section>
 <section class="form_">
-  <form class="register__form">
+  <form class="register__form" method="post" action="/register">
     <div class="row">
       <div class="medium-6 columns"><label>Imię<input type="text" name="Imie"></label></div>
       <div class="medium-6 columns"><label>Nazwisko<input type="text" name="Nazwisko"></label></div>
@@ -24,8 +24,11 @@
       <div class="medium-6 columns"><label>Pesel<input type="text" name="Pesel"></label></div>
     </div>
     <div class="row">
-      <div class="medium-6 columns"><label>Adres<input type="text" name="Adres"></label></div>
+      <div class="medium-6 columns"><label>Telefon<input type="text" name="Telefon"></label></div>
       <div class="medium-6 columns"><label>Hasło<input type="text" name="Haslo"></label></div>
+    </div>
+    <div class="row">
+      <input type="submit" value="Zarejestruj"/>
     </div>
   </form>
 </section>

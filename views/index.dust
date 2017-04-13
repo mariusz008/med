@@ -1,9 +1,10 @@
-{>"layout" /}
+{>"index_layout" /}
 
-{<body}
+{<select_doctor}
 
   <div class="search">
-
+    <form class="register__form" method="get" action="/">
+    </form>
     <div class="large-5 small-5 columns">
       <input type="text" placeholder="Find doctor">
       {#spec}
@@ -21,4 +22,4 @@
     {/miasta}
   </div>
 
-{/body}
+{/select_doctor}
