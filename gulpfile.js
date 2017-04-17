@@ -40,8 +40,15 @@ gulp.task("jade", function() {
     .pipe(gulp.dest("./public/"));
 });
 
+
 gulp.task("jade", function() {
   return gulp.src("./app/register.jade")
+    .pipe(plumber())
+    .pipe(jade())
+    .pipe(gulp.dest("./public/"));
+});
+gulp.task("jade", function() {
+  return gulp.src("./app/results.jade")
     .pipe(plumber())
     .pipe(jade())
     .pipe(gulp.dest("./public/"));
@@ -58,9 +65,8 @@ gulp.task("html", function () {
   gulp.src("./public/index.html")
     .pipe(connect.reload());
 });
-
 gulp.task("html", function () {
-  gulp.src("./public/signIn.html")
+  gulp.src("./public/results.html")
     .pipe(connect.reload());
 });
 gulp.task("html", function () {
@@ -68,6 +74,10 @@ gulp.task("html", function () {
     .pipe(connect.reload());
 });
 
+gulp.task("html", function () {
+  gulp.src("./public/signIn.html")
+    .pipe(connect.reload());
+});
 gulp.task("css", function () {
   gulp.src("./public/style.css")
     .pipe(connect.reload());
