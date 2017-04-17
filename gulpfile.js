@@ -24,20 +24,28 @@ gulp.task("sass", function () {
     .pipe(gulp.dest("./public/"));
 });
 
+
+
 gulp.task("jade", function() {
-    return gulp.src("./app/index.jade")
-      .pipe(plumber())
-      .pipe(jade())
-      .pipe(gulp.dest("./public/"));
+  return gulp.src("./app/signIn.jade")
+    .pipe(plumber())
+    .pipe(jade())
+    .pipe(gulp.dest("./public/"));
 });
+
+gulp.task("jade", function() {
+  return gulp.src("./app/index.jade")
+    .pipe(plumber())
+    .pipe(jade())
+    .pipe(gulp.dest("./public/"));
+});
+
 gulp.task("jade", function() {
   return gulp.src("./app/register.jade")
     .pipe(plumber())
     .pipe(jade())
     .pipe(gulp.dest("./public/"));
 });
-
-
 gulp.task("connect", function() {
   connect.server({
     root: "public",
@@ -45,8 +53,14 @@ gulp.task("connect", function() {
   });
 });
 
+
 gulp.task("html", function () {
   gulp.src("./public/index.html")
+    .pipe(connect.reload());
+});
+
+gulp.task("html", function () {
+  gulp.src("./public/signIn.html")
     .pipe(connect.reload());
 });
 gulp.task("html", function () {

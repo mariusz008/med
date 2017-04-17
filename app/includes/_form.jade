@@ -1,10 +1,12 @@
 section.form_
   //form.register__form
+
   form.register__form(data-abide='', novalidate='')
     .alert.callout(data-abide-error='', style='display: none;')
       p
         i.fi-alert
         |  There are some errors in your form.
+    p.register__title.row.darkest Zacznij od utworzenia konta w serwisie TwójLekarz
     .row
       .medium-6.columns
         label Imię
@@ -46,5 +48,5 @@ section.form_
           input(type="text" name="E-mail",placeholder='ela@wp.pl', aria-describedby='exampleHelpText', required='', pattern='email')
     .row
       .medium-6.columns
-        button.button.small Rejestruj
+        button.button.small.greencolor Rejestruj
 
