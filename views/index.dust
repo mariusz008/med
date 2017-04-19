@@ -3,23 +3,28 @@
 {<select_doctor}
 
   <div class="search">
-    <form class="register__form" method="get" action="/">
-    </form>
-    <div class="large-5 small-5 columns">
-      <input type="text" placeholder="Find doctor">
-      {#spec}
-        {specjalnosc}
-      {/spec}
-    </div>
 
-    <div class="large-5 small-5 columns"><input type="text" placeholder="Find city"></div>
-    <div class="large-3 small-5 columns"></div>
-    <button class="button small">Szukaj</button>
-
+      <div class="large-5 small-5 columns"><input type="text"  placeholder="Znajdź doktora"></div>
+      <div class="large-5 small-5 columns"><input type="text" placeholder="Znajdź miasto"></div>
+      <div class="large-3 small-5 columns"></div>
+      <button class="button small">Szukaj</button>
+    {#spec}
+      {specjalnosc}
+    {/spec}
     <br/>
     {#miasta}
       {miasto}
     {/miasta}
+    {!<div class="large-5 small-5 columns">!}
+      {!<input type="text" placeholder="Find doctor">!}
+      {!!}
+    {!</div>!}
+
+    {!<div class="large-5 small-5 columns"><input type="text" placeholder="Find city"></div>!}
+    {!<div class="large-3 small-5 columns"></div>!}
+    {!<button class="button small">Szukaj</button>!}
+
+
   </div>
 
 {/select_doctor}

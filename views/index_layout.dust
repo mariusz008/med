@@ -25,12 +25,7 @@
       <div class="columns medium-6"></div>
       <div class="columns medium-6"><h1 class="green">Znajdź lekarza i umów wizytę</h1>
         <p class="darkest">Poszukaj wród najlepszych lekarzy w Polsce,<br>i Ty zasługujesz na najlepszą opiekę!</p>
-        <div class="search">
-          <div class="large-5 small-5 columns"><input type="text"  placeholder="Znajdź doktora"></div>
-          <div class="large-5 small-5 columns"><input type="text" placeholder="Znajdź miasto"></div>
-          <div class="large-3 small-5 columns"></div>
-          <button class="button small">Szukaj</button>
-        </div>
+        {+select_doctor/}
       </div>
     </div>
   </div>
