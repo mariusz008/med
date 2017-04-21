@@ -22,8 +22,10 @@ function searchDoctors() {
     }
   }
 
-  if(correctCity && correctDoctor) {
-    alert("Poprawnie wybrałes lekarza oraz miasto, mozesz przejsc dalej!");
+  if (correctCity && correctDoctor) {
+    window.location.href = "results.html";
+  } else {
+    alert("Wpisz poprawnie specjalność oraz lekarza");
   }
 }
 
