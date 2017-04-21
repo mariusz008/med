@@ -4,27 +4,19 @@
 
   <div class="search">
 
-      <div class="large-5 small-5 columns"><input type="text"  placeholder="Znajdź doktora"></div>
-      <div class="large-5 small-5 columns"><input type="text" placeholder="Znajdź miasto"></div>
-      <div class="large-3 small-5 columns"></div>
-      <button class="button small">Szukaj</button>
-    {#spec}
-      {specjalnosc}
-    {/spec}
-    <br/>
-    {#miasta}
-      {miasto}
-    {/miasta}
-    {!<div class="large-5 small-5 columns">!}
-      {!<input type="text" placeholder="Find doctor">!}
-      {!!}
-    {!</div>!}
-
-    {!<div class="large-5 small-5 columns"><input type="text" placeholder="Find city"></div>!}
-    {!<div class="large-3 small-5 columns"></div>!}
-    {!<button class="button small">Szukaj</button>!}
-
-
+    <div class="large-5 small-5 columns"><input type="text"  placeholder="Znajdź doktora" list="lekarze"></div>
+    <div class="large-5 small-5 columns"><input type="text"  placeholder="Znajdź miasto" list="miasta"></div>
+    <button class="button small">Szukaj</button>
+    <datalist id="lekarze">
+      {#spec}
+        <option value="{specjalnosc}"></option>
+      {/spec}
+    </datalist>
+    <datalist id="miasta">
+      {#miasta}
+        <option value="{miasto}"></option>
+      {/miasta}
+    </datalist>
   </div>
 
 {/select_doctor}
