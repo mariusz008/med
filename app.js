@@ -52,16 +52,15 @@ app.get('/', function (req, res) {
   });
 });
 
-app.get('/register', function (req, res) {
-  res.redirect('register.html');
-  pg.connect(connect, function (err, client, done) {
-  if(err) {
-    return console.error('erroe', err);
-  }
-  });
-});
+
 
 app.post('/register', function (req, res) {
+  if (!registerValidation(req)) {
+    console.error("Wypełnij poprawnie wszystkie pola");
+    //res.redirect("register.html");
+    return;
+  }
+
   pg.connect(connect, function (err, client, done) {
     if(err) {
       return console.error('erroe', err);
@@ -69,15 +68,26 @@ app.post('/register', function (req, res) {
     //var pesel = req.body.Pesel;
     //console.log(pesel);
     client.query('INSERT INTO pacjent (pesel, imie, nazwisko, email, haslo, telefon) VALUES($1, $2, $3, $4, $5, $6)',
-      [req.body.Pesel, req.body.Imie, req.body.Nazwisko, req.body.Email, req.body.Haslo, req.body.Telefon], function(err, result) {
+      [req.body.Pesel, req.body.Imie, req.body.Nazwisko, req.body.Email, req.body.haslo, req.body.Telefon], function(err, result) {
         if(err) {
           return console.error('register error', err);
         }
       done();
+        res.redirect("register.html");
       console.log("Zostales zarejestrowany");
       });
   });
+
+
 });
+
+function registerValidation(req, res) {
+  var correctForm = false;
+
+  if(req.body.Pesel.length == 11) correctForm = true;
+
+  return correctForm;
+}
 //Server
 app.listen(3000, function () {
   console.log("Server starts on port 3000");
