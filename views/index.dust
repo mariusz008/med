@@ -4,15 +4,18 @@
 
   <div class="search">
 
-    <div class="large-5 small-5 columns"><input type="text"  placeholder="Znajdź doktora" list="lekarze"></div>
-    <div class="large-5 small-5 columns"><input type="text"  placeholder="Znajdź miasto" list="miasta"></div>
-    <button class="button small">Szukaj</button>
-    <datalist id="lekarze">
+    <div class="large-5 small-5 columns"><input type="text" id="doctor" placeholder="Znajdź lekarza" list="doctorList"></div>
+    <div class="large-5 small-5 columns"><input type="text" id="city" placeholder="Znajdź miasto" list="cityList"></div>
+
+    <button class="button small" onclick="searchDoctors()">Szukaj</button>
+
+
+    <datalist id="doctorList">
       {#spec}
         <option value="{specjalnosc}"></option>
       {/spec}
     </datalist>
-    <datalist id="miasta">
+    <datalist id="cityList">
       {#miasta}
         <option value="{miasto}"></option>
       {/miasta}

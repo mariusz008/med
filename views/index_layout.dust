@@ -24,7 +24,7 @@
     <div class="center-vertically">
       <div class="columns medium-6"></div>
       <div class="columns medium-6"><h1 class="green">Znajdź lekarza i umów wizytę</h1>
-        <p class="darkest">Poszukaj wród najlepszych lekarzy w Polsce,<br>i Ty zasługujesz na najlepszą opiekę!</p>
+        <p class="darkest">Poszukaj wśród najlepszych lekarzy w Polsce,<br>i Ty zasługujesz na najlepszą opiekę!</p>
         {+select_doctor/}
       </div>
     </div>
