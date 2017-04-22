@@ -28,3 +28,7 @@ function searchDoctors() {
     alert("Wpisz poprawnie specjalność oraz lekarza");
   }
 }
+
+function setPesel(pesel) {
+  document.getElementById("signInPesel").value = pesel;
+}

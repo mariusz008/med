@@ -8,27 +8,38 @@
 <body>
 <section class="top-bar">
   <nav class="top-bar-left">
-    <ul data-dropdown-menu="" class="dropdown menu"><a href="index.html">
+    <ul data-dropdown-menu="" class="dropdown menu"><a href="/">
       <li class="menu-text">twójLekarz</li>
     </a></ul>
   </nav>
 </section>
-<section class="signIn_form section"><p class="register__title row darkest">Zaloguj się</p>
-  <div class="row">
-    <div class="medium-4 columns"><label>Pesel<input type="text" name="pesel"></label></div>
-  </div>
-  <div class="row">
-    <div class="medium-4 columns"><label>Hasło<input type="text" name="haslo"></label></div>
-  </div>
-  <div class="row">
-    <div class="medium-6 columns">
-      <button class="button small greencolor">Zaloguj</button>
+
+  <section class="signIn_form section"><p class="register__title row darkest">Zaloguj się</p>
+    <form data-abide="" novalidate="" method="get" action="/login">
+    <div class="row">
+      <div class="medium-4 columns">
+        <label>Pesel
+          <input type="text" id="signInPesel" name="pesel" maxlength="11" pattern="\d{11,11}">
+        </label>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="medium-6 columns small-1"><a href="register.html"><p>Nie masz konta ? Rarejestruj się!</p></a></div>
-  </div>
-</section>
+    <div class="row">
+      <div class="medium-4 columns"><label>Hasło<input type="password" name="Haslo"
+                                                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+        <span class="form-error">Hasło powinno posiadać przynajmniej 1 liczbę, 1 dużą i małą literę oraz minimum 8 znaków</span>
+      </label></div>
+    </div>
+    <div class="row">
+      <div class="medium-6 columns">
+        <button class="button small greencolor">Zaloguj</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="medium-6 columns small-1"><a href="register.html"><p>Nie masz konta? Zarejestruj się!</p></a></div>
+    </div>
+    </form>
+  </section>
+
 <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/foundation/6.2.0/foundation.min.js"></script>
 <script src="main.js"></script>

@@ -7,6 +7,7 @@ var express = require('express'),
   pg = require('pg'),
   passwordHash = require('password-hash'),
   app = express();
+var cheerio = require('cheerio');
 
 //const route = require('./router');
 //DB connection String
@@ -56,15 +57,47 @@ app.post('/register', function (req, res) {
     if(err) {
       return console.error('error', err);
     }
-    var haslo =  passwordHash.generate(req.body.haslo);
+    var Haslo =  passwordHash.generate(req.body.Haslo);
     client.query('INSERT INTO pacjent (pesel, imie, nazwisko, email, haslo, telefon) VALUES($1, $2, $3, $4, $5, $6)',
-      [req.body.Pesel, req.body.Imie, req.body.Nazwisko, req.body.Email, haslo, req.body.Telefon], function(err, result) {
+      [req.body.Pesel, req.body.Imie, req.body.Nazwisko, req.body.Email, Haslo, req.body.Telefon], function(err, result) {
         if(err) {
           return console.error('register error', err);
         }
         done();
         res.redirect("signIn.html");
       });
+  });
+});
+
+app.get('/login', function (req, res) {
+
+  pg.connect(connect, function (err, client, done) {
+    if(err) {
+      return console.error('error', err);
+    }
+    var pesel = req.query.pesel;
+    client.query('SELECT pesel, imie, nazwisko, email, haslo, telefon FROM pacjent WHERE pesel = $1',
+      [pesel], function(err, result) {
+      if(err) {
+        return console.error('error running query', err);
+      }
+       console.log(result.rows);
+        done();
+        if (result.rowCount == 0) {
+          console.log("nie ma w bazie ziomka o takim peselu");
+          res.redirect("signIn.html");
+         // window.document.getElementById("signInPesel").value = pesel;
+        } else if (result.rowCount == 1) {
+          if (passwordHash.verify(req.query.Haslo, result.rows[0].haslo)) {
+            console.log("poprawne haslo");
+            res.redirect("/");
+          } else {
+            console.log("haslo bledne");
+            //window.document.getElementById("signInPesel").value = pesel;
+            res.redirect("signIn.html");
+          }
+        }
+    });
   });
 });
 

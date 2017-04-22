@@ -8,7 +8,7 @@
 <body>
 <section class="top-bar">
   <nav class="top-bar-left">
-    <ul data-dropdown-menu="" class="dropdown menu"><a href="index.html">
+    <ul data-dropdown-menu="" class="dropdown menu"><a href="/">
       <li class="menu-text">twójLekarz</li>
     </a></ul>
   </nav>
