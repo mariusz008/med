@@ -25,8 +25,6 @@ app.use(express.static(path.join(__dirname, 'views')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-// app.use(route.routes());
-
 app.get('/', function (req, res) {
   var specjalnosci = "";
   pg.connect(connect, function(err, client, done) {
@@ -52,16 +50,7 @@ app.get('/', function (req, res) {
   });
 });
 
-
-
 app.post('/register', function (req, res) {
-  if (!registerValidation(req)) {
-    console.error("Wypełnij poprawnie wszystkie pola");
-    //res.redirect("register.html");
-    req.body.peselErr
-    res.refresh();
-    return;
-  }
 
   pg.connect(connect, function (err, client, done) {
     if(err) {
@@ -75,21 +64,12 @@ app.post('/register', function (req, res) {
           return console.error('register error', err);
         }
       done();
-        res.redirect("register.html");
+      res.redirect("login.html");
       console.log("Zostales zarejestrowany");
       });
   });
-
-
 });
 
-function registerValidation(req, res) {
-  var correctForm = false;
-
-  if(req.body.Pesel.length == 11) correctForm = true;
-
-  return correctForm;
-}
 //Server
 app.listen(3000, function () {
   console.log("Server starts on port 3000");
