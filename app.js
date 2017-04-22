@@ -63,9 +63,10 @@ app.post('/register', function (req, res) {
         if(err) {
           return console.error('register error', err);
         }
+      res.redirect("signIn.html");
       done();
-      res.redirect("login.html");
-      console.log("Zostales zarejestrowany");
+      res.redirect("signIn.html");
+
       });
   });
 });
