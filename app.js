@@ -58,12 +58,14 @@ app.post('/register', function (req, res) {
   if (!registerValidation(req)) {
     console.error("Wypełnij poprawnie wszystkie pola");
     //res.redirect("register.html");
+    req.body.peselErr
+    res.refresh();
     return;
   }
 
   pg.connect(connect, function (err, client, done) {
     if(err) {
-      return console.error('erroe', err);
+      return console.error('error', err);
     }
     //var pesel = req.body.Pesel;
     //console.log(pesel);

@@ -29,4 +29,8 @@ function searchDoctors() {
   }
 }
 
-
+function registerFormValidation(pesel) {
+  if (pesel) {
+    document.getElementById("peselError").set
+  }
+}

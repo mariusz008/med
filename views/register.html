@@ -26,7 +26,8 @@
       <div class="medium-6 columns"><label>Hasło<input id="password" type="password" name="haslo"
                                                        placeholder="yeti4preZ" aria-describedby="exampleHelpText"
                                                        required=""><span class="form-error">I'm required!</span></label>
-        <p id="exampleHelpText" class="help-text">Proszę wpisać hasło.</p></div>
+        <!--<p id="exampleHelpText" class="help-text">Proszę wpisać hasło.</p>-->
+      </div>
       <div class="medium-6 columns"><label>Powtórz hasło<input type="password" placeholder="yeti4preZ"
                                                                aria-describedby="exampleHelpText2" required=""
                                                                pattern="alpha_numeric" data-equalto="password"><span
@@ -35,11 +36,11 @@
     <div class="row">
       <div class="medium-6 columns"><label>Pesel<input type="text" name="Pesel" placeholder="54022405478"
                                                        aria-describedby="exampleHelpText" required=""
-                                                       pattern="number"><span
+                                                       pattern="number" maxlength="11"><span
         class="form-error">Pesel nie jest poprawny</span></label></div>
       <div class="medium-6 columns"><label>Telefon<input type="text" name="Telefon" placeholder="725605987"
                                                          aria-describedby="exampleHelpText" required=""
-                                                         pattern="number"><span class="form-error">Numer nie jest poprawny</span></label>
+                                                         pattern="number" maxlength="9"><span class="form-error">Numer nie jest poprawny</span></label>
       </div>
     </div>
     <div class="row">
