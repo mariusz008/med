@@ -1,11 +1,12 @@
 
 var express = require('express'),
-    path = require('path'),
-    bodyParser = require('body-parser'),
-    cons = require('consolidate'),
-    dust = require('dustjs-helpers'),
-    pg = require('pg'),
-    app = express();
+  path = require('path'),
+  bodyParser = require('body-parser'),
+  cons = require('consolidate'),
+  dust = require('dustjs-helpers'),
+  pg = require('pg'),
+  passwordHash = require('password-hash'),
+  app = express();
 
 //const route = require('./router');
 //DB connection String
@@ -31,7 +32,6 @@ app.get('/', function (req, res) {
     if(err) {
       return console.error('error fetching client from pool', err);
     }
-    var pesel = req.body.Pesel;
     client.query('SELECT DISTINCT specjalnosc FROM lekarz order by specjalnosc asc', function(err, result) {
       if(err) {
         return console.error('error running query', err);
@@ -56,17 +56,14 @@ app.post('/register', function (req, res) {
     if(err) {
       return console.error('error', err);
     }
-    //var pesel = req.body.Pesel;
-    //console.log(pesel);
+    var haslo =  passwordHash.generate(req.body.haslo);
     client.query('INSERT INTO pacjent (pesel, imie, nazwisko, email, haslo, telefon) VALUES($1, $2, $3, $4, $5, $6)',
-      [req.body.Pesel, req.body.Imie, req.body.Nazwisko, req.body.Email, req.body.haslo, req.body.Telefon], function(err, result) {
+      [req.body.Pesel, req.body.Imie, req.body.Nazwisko, req.body.Email, haslo, req.body.Telefon], function(err, result) {
         if(err) {
           return console.error('register error', err);
         }
-      res.redirect("signIn.html");
-      done();
-      res.redirect("signIn.html");
-
+        done();
+        res.redirect("signIn.html");
       });
   });
 });
