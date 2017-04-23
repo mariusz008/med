@@ -3821,6 +3821,38 @@ body {
 .small-1 {
   font-size: 13px; }
 
+.success {
+  padding-top: 15%;
+  text-align: center;
+  color: #4A4A48;
+  font-family: 'Source Sans Pro', sans-serif; }
+
+.square {
+  border: solid 2px #3A3A37;
+  border-radius: 5px;
+  background: #4A4A48;
+  padding: 20px;
+  width: 300px;
+  height: 200px; }
+
+.square:hover {
+  background: #3A3A37; }
+
+.ff {
+  font-size: 120px; }
+
+.fa-long-arrow-right {
+  font-size: 100px;
+  padding-top: 30px; }
+
+.square_font {
+  font-family: 'Pacifico', cursive;
+  font-weight: bold;
+  font-size: 35px; }
+
+.registerCorrect_font {
+  font-size: 45px; }
+
 .greencolor {
   background-color: #566246; }
 

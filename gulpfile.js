@@ -50,6 +50,13 @@ gulp.task("jade", function() {
     .pipe(jade())
     .pipe(gulp.dest("./public/"));
 });
+
+gulp.task("jade", function() {
+  return gulp.src("./app/register_success.jade")
+    .pipe(plumber())
+    .pipe(jade())
+    .pipe(gulp.dest("./public/"));
+});
 gulp.task("connect", function() {
   connect.server({
     root: "public",
@@ -64,6 +71,10 @@ gulp.task("html", function () {
 });
 gulp.task("html", function () {
   gulp.src("./public/results.html")
+    .pipe(connect.reload());
+});
+gulp.task("html", function () {
+  gulp.src("./public/register_success.html")
     .pipe(connect.reload());
 });
 gulp.task("html", function () {

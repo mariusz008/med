@@ -64,7 +64,7 @@ app.post('/register', function (req, res) {
           return console.error('register error', err);
         }
         done();
-        res.redirect("signIn.html");
+        res.redirect("register_success.html");
       });
   });
 });
