@@ -38,12 +38,7 @@ gulp.task("jade", function() {
     .pipe(jade())
     .pipe(gulp.dest("./public/"));
 });
-gulp.task("jade", function() {
-  return gulp.src("./app/results.jade")
-    .pipe(plumber())
-    .pipe(jade())
-    .pipe(gulp.dest("./public/"));
-});
+
 gulp.task("jade", function() {
   return gulp.src("./app/signIn.jade")
     .pipe(plumber())
@@ -53,6 +48,12 @@ gulp.task("jade", function() {
 
 gulp.task("jade", function() {
   return gulp.src("./app/register_success.jade")
+    .pipe(plumber())
+    .pipe(jade())
+    .pipe(gulp.dest("./public/"));
+});
+gulp.task("jade", function() {
+  return gulp.src("./app/results.jade")
     .pipe(plumber())
     .pipe(jade())
     .pipe(gulp.dest("./public/"));
@@ -69,12 +70,13 @@ gulp.task("html", function () {
   gulp.src("./public/index.html")
     .pipe(connect.reload());
 });
+
 gulp.task("html", function () {
-  gulp.src("./public/results.html")
+  gulp.src("./public/register_success.html")
     .pipe(connect.reload());
 });
 gulp.task("html", function () {
-  gulp.src("./public/register_success.html")
+  gulp.src("./public/results.html")
     .pipe(connect.reload());
 });
 gulp.task("html", function () {
