@@ -5,22 +5,24 @@ var express = require('express'),
   cons = require('consolidate'),
   dust = require('dustjs-helpers'),
   pg = require('pg'),
+  fs = require('fs'),
   passwordHash = require('password-hash'),
- // router = express.Router(),
+  router = express.Router(),
   //mainJS = require("./views/main.js"),
   app = express();
 var cheerio = require('cheerio');
 
 
-//$(document).foundation();
-
-
 var connect = "postgress://m008:admin@localhost/med";
 
+// app.engine('html', require('ejs').renderFile);
+// app.set('view engine', 'html');
 app.engine('dust', cons.dust);
+
 app.set('view engine', 'dust');
-app.set('views', __dirname + '/views');
-//app.use(router);
+
+app.set('views', __dirname + '\\views');
+app.use(router);
 app.use(express.static(path.join(__dirname, 'views')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -28,10 +30,13 @@ app.use(bodyParser.urlencoded({extended: true}));
 var userPesel, userImie, userNazwisko, userEmail, userTelefon;
 var selectedDoctorVar, selectedCityVar = "";
 var specjalnosci, miasta, specIlosc, miastaIlosc;
+var correctDoctor = false;
+var correctCity = false;
 
-app.get('/', function (req, res) {
+router.get('/', function (req, res) {
   specjalnosci="";
   miasta="";
+
   pg.connect(connect, function(err, client, done) {
     if(err) {
       return console.error('error fetching client from pool', err);
@@ -41,8 +46,9 @@ app.get('/', function (req, res) {
         return console.error('error running query', err);
       }
       specjalnosci = result.rows;
+      //console.log(specjalnosci);
       specIlosc = result.rowCount;
-      done();
+      //done();
     });
     client.query('SELECT DISTINCT miasto FROM lekarz order by miasto asc', function(err, result) {
       if(err) {
@@ -50,6 +56,7 @@ app.get('/', function (req, res) {
       }
       miasta =result.rows;
       miastaIlosc = result.rowCount;
+
       res.render('index', {spec: specjalnosci, miasta: miasta});
       done();
     });
@@ -112,11 +119,9 @@ app.get('/login', function (req, res) {
   });
 });
 
-app.get('/getDoctors', function (req, res) {
-  selectedDoctorVar = req.query.selectedDoctor;
-  selectedCityVar = req.query.selectedCity;
-  var correctDoctor = false;
-  var correctCity = false;
+app.post('/getDoctors', function (req, res) {
+  selectedDoctorVar = req.body.selectedDoctor;
+  selectedCityVar = req.body.selectedCity;
 
   for (var i = 0; i <specIlosc; i++) {
     if (selectedDoctorVar == specjalnosci[i].specjalnosc) {
@@ -130,26 +135,37 @@ app.get('/getDoctors', function (req, res) {
   }
 
   if (correctCity && correctDoctor) {
-    pg.connect(connect, function (err, client, done) {
-      if(err) {
-        return console.error('error', err);
-      }
-      client.query("SELECT nazwisko FROM lekarz where specjalnosc = $1",
-        selectedDoctorVar,
-        function(err, result) {
+    res.redirect("/results");
+  } else {
+    res.send("Wpisz poprawnie specjalność oraz lekarza");
+    console.log(correctCity+" "+correctDoctor);
+  }
+});
+
+
+app.get('/results', function(req, res) {
+
+  var selectedDoc = {
+    "specjalnosc" : selectedDoctorVar,
+    "miasto" : selectedCityVar
+  };
+
+  pg.connect(connect, function (err, client, done) {
+    if(err) {
+      return console.error('error', err);
+    }
+    client.query('SELECT imie, nazwisko, adres, miasto, telefon, specjalnosc FROM lekarz where specjalnosc = $1 and miasto = $2',
+      [selectedDoctorVar, selectedCityVar], function(err, result) {
         if(err) {
           return console.error('error running query', err);
         }
         console.log(result.rows);
-        //res.render('results.html', {spec: specjalnosci, miasta: miasta});
+        res.render('results', {list: result.rows, doktor: selectedDoc});
         done();
       });
-    });
-  } else {
-    res.send("Wpisz poprawnie specjalność oraz lekarza");
-  }
-});
+  });
 
+});
 
 //Server
 app.listen(3000, function () {

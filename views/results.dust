@@ -1,0 +1,53 @@
+{>"results_layout" /}
+
+{<selected_doctor}
+  {#doktor}
+  {specjalnosc} {miasto}
+  {/doktor}
+{/selected_doctor}
+
+
+{<listOfDoctors}
+  {#list}
+  <div class="row">
+    <div class="blueFieldUpAQ">
+      <div>
+        <span class="signSmallFont sign_bigger">{imie} {nazwisko}</span><br><span class="lightFont bigger">Specjalizacja: {specjalnosc}</span>
+        <br>
+        <span class="lightFont smaller">Adres: {miasto} {adres} </span>
+        <br>
+        <span class="lightFont smaller">Kontakt: {telefon} </span>
+      </div>
+
+    </div>
+    <div class="LongBlueFieldAQ"></div>
+    <div class="content">
+      <div class="squares">
+        <center></center>
+        <div class="underBorder lightFont">Poniedziałek</div>
+        <div class="circle"></div>
+      </div>
+      <div class="squares">
+        <center></center>
+        <div class="underBorder lightFont">Wtorek</div>
+        <div class="circle"></div>
+      </div>
+      <div class="squares">
+        <center></center>
+        <div class="underBorder lightFont">Środa</div>
+        <div class="circle"></div>
+      </div>
+      <div class="squares">
+        <center></center>
+        <div class="underBorder lightFont">Czwartek</div>
+        <div class="circle"></div>
+      </div>
+      <div class="squares">
+        <center></center>
+        <div class="underBorder lightFont">Piątek</div>
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+  {/list}
+{/listOfDoctors}

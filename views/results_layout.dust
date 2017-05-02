@@ -23,41 +23,8 @@
   </nav>
 </section>
 <section class="results section"><h3 class="top row darkest">Znajdź lekarza i umów wizytę</h3>
-  <div class="row">
-    <div class="blueFieldUpAQ">
-      <div><span class="signSmallFont sign_bigger">Imię, nazwisko</span><br><span class="lightFont bigger">zawód ( ginekolog, itd.. )</span><br><span
-        class="lightFont smaller">Adres:</span></div>
-    </div>
-    <div class="LongBlueFieldAQ"></div>
-    <div class="content">
-      <div class="squares">
-        <center></center>
-        <div class="underBorder lightFont">Poniedziałek</div>
-        <div class="circle"></div>
-      </div>
-      <div class="squares">
-        <center></center>
-        <div class="underBorder lightFont">Wtorek</div>
-        <div class="circle"></div>
-      </div>
-      <div class="squares">
-        <center></center>
-        <div class="underBorder lightFont">Środa</div>
-        <div class="circle"></div>
-      </div>
-      <div class="squares">
-        <center></center>
-        <div class="underBorder lightFont">Czwartek</div>
-        <div class="circle"></div>
-      </div>
-      <div class="squares">
-        <center></center>
-        <div class="underBorder lightFont">Piątek</div>
-        <div class="circle"></div>
-      </div>
-    </div>
-  </div>
-  </form>
+  {+selected_doctor/}
+  {+listOfDoctors/}
 </section>
 <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/foundation/6.2.0/foundation.min.js"></script>

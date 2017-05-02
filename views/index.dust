@@ -3,7 +3,7 @@
 {<select_doctor}
 
   <div class="search">
-    <form method="get" action="/getDoctors">
+    <form method="post" action="/getDoctors">
     <div class="large-5 small-5 columns"><input type="text" id="doctor" name="selectedDoctor" placeholder="Znajdź lekarza" list="doctorList"></div>
     <div class="large-5 small-5 columns"><input type="text" id="city" name="selectedCity" placeholder="Znajdź miasto" list="cityList"></div>
 
