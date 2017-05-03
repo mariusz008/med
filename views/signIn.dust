@@ -13,7 +13,7 @@
       <div class="medium-4 columns">
         <label>Pesel
           <input type="text" id="signInPesel" name="pesel" maxlength="11" pattern="\d{11,11}" value={peselForm}>
-
+  <span class="form-error">Pesel powinien miec 11 cyfr</span>
       </label>
       </div>
     </div>

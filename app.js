@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'views')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-var userPesel, userImie, userNazwisko, userEmail, userTelefon;
+var userPesel, userImie, userNazwisko, userEmail, userTelefon, userZalogowany = false;
 var selectedDoctorVar, selectedCityVar = "";
 var specjalnosci, miasta, specIlosc, miastaIlosc;
 var correctDoctor = false;
@@ -110,6 +110,7 @@ app.get('/login', function (req, res) {
             userNazwisko = result.rows[0].nazwisko;
             userEmail= result.rows[0].email;
             userTelefon = result.rows[0].telefon;
+            userZalogowany = true;
             res.redirect("/");
           } else {
             console.log("haslo bledne");

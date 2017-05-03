@@ -33,7 +33,7 @@
             <div class="hour">14:30</div>
           </div>
           <div class="oneday">
-            <div class="hour">14:30</div>
+            <div class="hour_red">14:30</div>
             <div class="hour">15:00</div>
           </div>
           <div class="lastday"></div>
