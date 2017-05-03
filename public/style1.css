@@ -3818,7 +3818,11 @@ body {
   text-align: center;
   margin-left: 3px;
   margin-right: 3px;
-  text-decoration: underline; }
+  text-decoration: underline;
+  cursor: pointer; }
+  .hour:hover {
+    background: #3D83DF;
+    color: white; }
 
 .top {
   text-align: center;
@@ -4274,3 +4278,7 @@ body {
   margin-top: 115px;
   font-size: 25px;
   margin-left: 185px; }
+
+.loginerror {
+  color: red;
+  margin-left: 18px; }

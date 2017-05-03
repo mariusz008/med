@@ -39,12 +39,7 @@ gulp.task("jade", function() {
     .pipe(gulp.dest("./public/"));
 });
 
-gulp.task("jade", function() {
-  return gulp.src("./app/signIn.jade")
-    .pipe(plumber())
-    .pipe(jade())
-    .pipe(gulp.dest("./public/"));
-});
+
 
 gulp.task("jade", function() {
   return gulp.src("./app/register_success.jade")
@@ -54,6 +49,12 @@ gulp.task("jade", function() {
 });
 gulp.task("jade", function() {
   return gulp.src("./app/results.jade")
+    .pipe(plumber())
+    .pipe(jade())
+    .pipe(gulp.dest("./public/"));
+});
+gulp.task("jade", function() {
+  return gulp.src("./app/signIn.jade")
     .pipe(plumber())
     .pipe(jade())
     .pipe(gulp.dest("./public/"));
@@ -70,7 +71,10 @@ gulp.task("html", function () {
   gulp.src("./public/index.html")
     .pipe(connect.reload());
 });
-
+gulp.task("html", function () {
+  gulp.src("./public/signIn.html")
+    .pipe(connect.reload());
+});
 gulp.task("html", function () {
   gulp.src("./public/register_success.html")
     .pipe(connect.reload());
@@ -83,10 +87,7 @@ gulp.task("html", function () {
   gulp.src("./public/register.html")
     .pipe(connect.reload());
 });
-gulp.task("html", function () {
-  gulp.src("./public/signIn.html")
-    .pipe(connect.reload());
-});
+
 
 gulp.task("css", function () {
   gulp.src("./public/style.css")
