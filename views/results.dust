@@ -1,53 +1,46 @@
 {>"results_layout" /}
 
 {<selected_doctor}
+
   {#doktor}
-  {specjalnosc} {miasto}
+  <section class="results section"><p class="mainResultfont">{specjalnosc}, {miasto}</p>
   {/doktor}
-{/selected_doctor}
-
-
-{<listOfDoctors}
   {#list}
-  <div class="row">
-    <div class="blueFieldUpAQ">
-      <div>
-        <span class="signSmallFont sign_bigger">{imie} {nazwisko}</span><br><span class="lightFont bigger">Specjalizacja: {specjalnosc}</span>
-        <br>
-        <span class="lightFont smaller">Adres: {miasto} {adres} </span>
-        <br>
-        <span class="lightFont smaller">Kontakt: {telefon} </span>
+    <div class="resultsField">
+      <div class="topField">
+        <div class="medium-7 columns"></div>
+        <div class="medium-5 columns">
+          <div class="datefont leftf">dzis</div>
+          <div class="datefont leftp">jutro</div>
+          <div class="datefont leftp">pojutrze</div>
+        </div>
       </div>
+      <div class="leftField">
+        <div class="nameField">
+          <div class="nameFieldfont">{imie} {nazwisko}</div>
+          <div class="proffesionfont">{specjalnosc}</div>
+        </div>
+        <div class="addressField"><b>Adress:</b><span class="fontaddress">{adres}, {miasto}</span><br><br>
+          <b>Telefon:</b><span class="fontaddress">{telefon}</span><br><br>
+          <div class="buttonvisit">
+            <button class="button small"><i aria-hidden="true" class="fa fa-calendar"></i>&#160; Umów wizytę</button>
+          </div>
+        </div>
+      </div>
+      <div class="rightField">
+        <div class="datesField">
+          <div class="oneday">
+            <div class="hour">14:30</div>
+          </div>
+          <div class="oneday">
+            <div class="hour">14:30</div>
+            <div class="hour">15:00</div>
+          </div>
+          <div class="lastday"></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    </div>
-    <div class="LongBlueFieldAQ"></div>
-    <div class="content">
-      <div class="squares">
-        <center></center>
-        <div class="underBorder lightFont">Poniedziałek</div>
-        <div class="circle"></div>
-      </div>
-      <div class="squares">
-        <center></center>
-        <div class="underBorder lightFont">Wtorek</div>
-        <div class="circle"></div>
-      </div>
-      <div class="squares">
-        <center></center>
-        <div class="underBorder lightFont">Środa</div>
-        <div class="circle"></div>
-      </div>
-      <div class="squares">
-        <center></center>
-        <div class="underBorder lightFont">Czwartek</div>
-        <div class="circle"></div>
-      </div>
-      <div class="squares">
-        <center></center>
-        <div class="underBorder lightFont">Piątek</div>
-        <div class="circle"></div>
-      </div>
-    </div>
-  </div>
   {/list}
-{/listOfDoctors}
+{/selected_doctor}

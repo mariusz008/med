@@ -32,6 +32,7 @@ var selectedDoctorVar, selectedCityVar = "";
 var specjalnosci, miasta, specIlosc, miastaIlosc;
 var correctDoctor = false;
 var correctCity = false;
+var loginPesel, noSuchPersonInDb;
 
 router.get('/', function (req, res) {
   specjalnosci="";
@@ -82,7 +83,8 @@ app.post('/register', function (req, res) {
 });
 
 app.get('/login', function (req, res) {
-
+  noSuchPersonInDb="";
+  loginPesel="";
   pg.connect(connect, function (err, client, done) {
     if(err) {
       return console.error('error', err);
@@ -90,15 +92,16 @@ app.get('/login', function (req, res) {
     var peselV = req.query.pesel;
     client.query('SELECT pesel, imie, nazwisko, email, haslo, telefon FROM pacjent WHERE pesel = $1',
       [peselV], function(err, result) {
-      if(err) {
-        return console.error('error running query', err);
-      }
-       //console.log(result.rows);
+        if(err) {
+          return console.error('error running query', err);
+        }
+        //console.log(result.rows);
         done();
         if (result.rowCount == 0) {
           console.log("nie ma w bazie ziomka o takim peselu");
-          res.redirect("signIn.html");
-         // window.document.getElementById("signInPesel").value = pesel;
+          res.redirect("signIn");
+          noSuchPersonInDb = "Nie ma takiego użytkownika w bazie";
+          // window.document.getElementById("signInPesel").value = pesel;
         } else if (result.rowCount == 1) {
           if (passwordHash.verify(req.query.Haslo, result.rows[0].haslo)) {
             console.log("poprawne haslo");
@@ -110,12 +113,13 @@ app.get('/login', function (req, res) {
             res.redirect("/");
           } else {
             console.log("haslo bledne");
-            //window.document.getElementById("signInPesel").value = pesel;
-            res.redirect("signIn.html");
+            noSuchPersonInDb = "Błędne hasło";
+            loginPesel = peselV;
+            res.redirect("signIn");
           }
         }
         console.log(userPesel+" "+userImie+" "+userNazwisko);
-    });
+      });
   });
 });
 
@@ -142,6 +146,10 @@ app.post('/getDoctors', function (req, res) {
   }
 });
 
+app.get('/signIn', function(req, res) {
+
+  res.render('signIn', {pesel: {"peselForm":loginPesel, "info":noSuchPersonInDb}});
+});
 
 app.get('/results', function(req, res) {
 

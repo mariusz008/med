@@ -17,15 +17,12 @@
   </nav>
   <nav class="top-bar-right">
     <ul data-dropdown-menu="" class="dropdown menu">
-      <li class="navigation__item"><a href="signIn.html" class="navigation__link">Zaloguj się</a></li>
+      <li class="navigation__item"><a href="signIn" class="navigation__link">Zaloguj się</a></li>
       <li class="navigation__item"><a href="register.html" class="navigation__link">Zarejestruj się</a></li>
     </ul>
   </nav>
 </section>
-<section class="results section"><h3 class="top row darkest">Znajdź lekarza i umów wizytę</h3>
   {+selected_doctor/}
-  {+listOfDoctors/}
-</section>
 <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/foundation/6.2.0/foundation.min.js"></script>
 <script src="main.js"></script>
