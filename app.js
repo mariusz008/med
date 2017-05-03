@@ -152,12 +152,6 @@ app.get('/signIn', function(req, res) {
 });
 
 app.get('/results', function(req, res) {
-
-  var selectedDoc = {
-    "specjalnosc" : selectedDoctorVar,
-    "miasto" : selectedCityVar
-  };
-
   pg.connect(connect, function (err, client, done) {
     if(err) {
       return console.error('error', err);
@@ -168,6 +162,15 @@ app.get('/results', function(req, res) {
           return console.error('error running query', err);
         }
         console.log(result.rows);
+        var infoIlosc = "";
+        if (result.rowCount == 0 ) {
+          infoIlosc = "Nie znaleziono lekarzy w bazie dla podanych parametrów:";
+        }
+        var selectedDoc = {
+          "specjalnosc" : selectedDoctorVar,
+          "miasto" : selectedCityVar,
+          "infoIlosc":infoIlosc
+        };
         res.render('results', {list: result.rows, doktor: selectedDoc});
         done();
       });

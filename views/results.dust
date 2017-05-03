@@ -3,7 +3,7 @@
 {<selected_doctor}
 
   {#doktor}
-  <section class="results section"><p class="mainResultfont">{specjalnosc}, {miasto}</p>
+  <section class="results section"><p class="mainResultfont">{infoIlosc} {specjalnosc}, {miasto}</p>
   {/doktor}
   {#list}
     <div class="resultsField">
