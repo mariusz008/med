@@ -1,39 +1,31 @@
 section.results.section
-  h3.top.row.darkest Znajdź lekarza i umów wizytę
+  p.mainResultfont Stomatolog, Łódź
+  .resultsField
+    .topField
+      .medium-7.columns
+        p.fontTopField Znajdź lekarza i umów wizytę
+      .medium-5.columns
+        .datefont.leftf dzis
+        .datefont.leftp jutro
+        .datefont.leftp pojutrze
+    .leftField
+      .nameField
+        .nameFieldfont Imie, Nazwisko
+        .proffesionfont stomatolog
+      .addressField
+        b Adress:
+        span.fontaddress Zbożowa 9, Łódź
+        br
+        .buttonvisit
+          button.button.small
+           i.fa.fa-calendar(aria-hidden='true')
+           | &#160; Umów wizytę
 
-  .row.shadow
-    .counterAQ
-      .counterTextAQ Zainteresowany?
-       .btn
-          button.button.small Umów wizytę!
-    .whiteFieldUpAQ
-      div
-        span.signSmallFont.sign_bigger Imię, nazwisko
-        br
-        span.lightFont.bigger zawód ( ginekolog, itd.. )
-        br
-        span.lightFont.smaller Adres:
-    .LongWhiteFieldAQ
-    .content
-      .squares
-        .hour 14:30
-        .hour 15:00
-        center
-        .underBorder.lightFont Poniedziałek
-        .circle
-      .squares
-        center
-        .underBorder.lightFont Wtorek
-        .circle
-      .squares
-        center
-        .underBorder.lightFont Środa
-        .circle
-      .squares
-        center
-        .underBorder.lightFont Czwartek
-        .circle
-      .squares
-        center
-        .underBorder.lightFont Piątek
-        .circle
+    .rightField
+      .datesField
+        .oneday
+          .hour 14:30
+        .oneday
+          .hour 14:30
+          .hour 15:00
+        .lastday

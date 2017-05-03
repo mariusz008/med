@@ -3817,7 +3817,8 @@ body {
   font-weight: bold;
   text-align: center;
   margin-left: 3px;
-  margin-right: 3px; }
+  margin-right: 3px;
+  text-decoration: underline; }
 
 .top {
   text-align: center;
@@ -4190,3 +4191,86 @@ body {
   padding-left: 30px;
   line-height: 50px;
   text-align: center; }
+
+.resultsField {
+  width: 735px;
+  height: 372px;
+  margin-left: 185px;
+  background-color: white;
+  border: 2px solid #e0e1da; }
+
+.topField {
+  height: 50px;
+  border-bottom: 2px solid #F1F2EB; }
+
+.nameField {
+  width: 430px;
+  height: 82px;
+  border-bottom: 2px solid #F1F2EB;
+  border-right: 2px solid #F1F2EB; }
+
+.addressField {
+  width: 430px;
+  height: 238px;
+  border-right: 2px solid #F1F2EB;
+  padding-left: 40px;
+  padding-top: 30px; }
+
+.datesField {
+  width: 301px;
+  height: 321px; }
+
+.leftField {
+  float: left; }
+
+.rightField {
+  float: left; }
+
+.oneday {
+  width: 100px;
+  height: 321px;
+  float: left;
+  border-right: 2px solid #F1F2EB; }
+
+.lastday {
+  width: 100px;
+  height: 321px;
+  float: left; }
+
+.fontTopField {
+  font-size: 14px;
+  padding-top: 15px;
+  padding-left: 20px; }
+
+.datefont {
+  float: left; }
+
+.leftp {
+  padding-left: 67px; }
+
+.leftf {
+  padding-left: 13px; }
+
+.nameFieldfont {
+  font-size: 17px;
+  padding-top: 20px;
+  color: #6499DF;
+  padding-left: 40px; }
+
+.proffesionfont {
+  font-size: 14px;
+  color: #8C8C8C;
+  padding-left: 40px; }
+
+.fontaddress {
+  font-size: 14px;
+  padding-left: 10px;
+  padding-top: 40px; }
+
+.buttonvisit {
+  padding-top: 10px; }
+
+.mainResultfont {
+  margin-top: 115px;
+  font-size: 25px;
+  margin-left: 185px; }
