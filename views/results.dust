@@ -10,9 +10,11 @@
       <div class="topField">
         <div class="medium-7 columns"></div>
         <div class="medium-5 columns">
-          <div class="datefont leftf">dzis</div>
-          <div class="datefont leftp">jutro</div>
-          <div class="datefont leftp">pojutrze</div>
+          {#dni}
+          <div class="datefont leftf">Dziś {today}</div>
+          <div class="datefont leftf">Jutro {tommorow}</div>
+          <div class="datefont leftf">Pojutrze {tommorowNext}</div>
+          {/dni}
         </div>
       </div>
       <div class="leftField">
@@ -30,17 +32,21 @@
       <div class="rightField">
         <div class="datesField">
           <div class="oneday">
-            <div class="hour">14:30</div>
+            {#dd1}
+            <div class="{dd1Zajete[$idx]}">{dd1[$idx]}</div>
+            {/dd1}
           </div>
           <div class="oneday">
-            <div class="hour_red">14:30</div>
-            <div class="hour">15:00</div>
+           {#dd2}
+            <div class="{dd2Zajete[$idx]}">{dd2[$idx]}</div>
+            {/dd2}
           </div>
-          <div class="lastday"></div>
+          {#dd3}
+            <div class="{dd3Zajete[$idx]}">{dd3[$idx]}</div>
+          {/dd3}
         </div>
       </div>
     </div>
   </section>
-
   {/list}
 {/selected_doctor}
