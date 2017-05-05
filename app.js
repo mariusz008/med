@@ -32,7 +32,8 @@ var selectedDoctorVar, selectedCityVar = "";
 var specjalnosci, miasta, specIlosc, miastaIlosc;
 var correctDoctor = false;
 var correctCity = false;
-var loginPesel, noSuchPersonInDb;
+var loginPesel, noSuchPersonInDb, tempDoctorID, takenVisit;
+var takenVisitNumber;
 
 router.get('/', function (req, res) {
   specjalnosci="";
@@ -140,7 +141,7 @@ app.post('/getDoctors', function (req, res) {
   }
 
   if (correctCity && correctDoctor) {
-    res.redirect("/results");
+    res.redirect("/doctorsList");
   } else {
     res.send("Wpisz poprawnie specjalność oraz lekarza");
     console.log(correctCity+" "+correctDoctor);
@@ -152,29 +153,183 @@ app.get('/signIn', function(req, res) {
   res.render('signIn', {pesel: {"peselForm":loginPesel, "info":noSuchPersonInDb}});
 });
 
-app.get('/results', function(req, res) {
+app.get('/doctorsList', function(req, res) {
   pg.connect(connect, function (err, client, done) {
     if(err) {
       return console.error('error', err);
     }
-    client.query('SELECT imie, nazwisko, adres, miasto, telefon, specjalnosc FROM lekarz where specjalnosc = $1 and miasto = $2',
-      [selectedDoctorVar, selectedCityVar], function(err, result) {
-        if(err) {
-          return console.error('error running query', err);
-        }
-        console.log(result.rows);
-        var infoIlosc = "";
-        if (result.rowCount == 0 ) {
-          infoIlosc = "Nie znaleziono lekarzy w bazie dla podanych parametrów:";
-        }
-        var selectedDoc = {
-          "specjalnosc" : selectedDoctorVar,
-          "miasto" : selectedCityVar,
-          "infoIlosc":infoIlosc
-        };
-        res.render('results', {list: result.rows, doktor: selectedDoc});
-        done();
-      });
+    var day1 = new Date().getDay();
+
+    client.query('SELECT t.id_lekarza as idek, w.data, w.godzina '+
+      'FROM public.terminarz as t '+
+      'join public.wizyta as w '+
+      'on t.id_lekarza = w.id_lekarza '+
+      'where zajete = true',  function(err, result1) {
+      if (err) {
+        return console.error('error running query', err);
+      }
+      takenVisit = result1.rows;
+      takenVisitNumber = result1.rowCount;
+
+      client.query('SELECT l.id_lekarza, l.imie, l.nazwisko, l.specjalnosc, l.telefon, l.czas_wizyty as czas_wizyty, l.adres, l.miasto, ' +
+        't.'+returnActualDays(day1)+' as dd1, t.'+returnActualDays(day1+1)+' as dd2, t.'+returnActualDays(day1+2)+' as dd3 ' +
+        'FROM lekarz as l ' +
+        'JOIN terminarz as t ' +
+        'ON l.id_lekarza = t.id_lekarza ' +
+        'WHERE specjalnosc = $1 AND miasto = $2' +
+        'order by l.nazwisko',
+        [selectedDoctorVar, selectedCityVar], function(err, result) {
+          if(err) {
+            return console.error('error running query', err);
+          }
+          var y = result.rowCount;
+          for(var i=0; i<y; i++) {
+
+            if (result.rows[i].data != undefined) {
+              console.log(result.rows[i].data);
+            }
+            var przedzial1 = result.rows[i].dd1;
+            var przedzial2 = result.rows[i].dd2;
+            var przedzial3 = result.rows[i].dd3;
+            var czas_wizyty = result.rows[i].czas_wizyty;
+
+            if (przedzial1 != null ) {
+              var Hod = przedzial1.substr(0, przedzial1.indexOf('-'));
+              var Hdo = przedzial1.substr(przedzial1.indexOf('-')+1, przedzial1.length);
+              result.rows[i].dd1 = [];
+              result.rows[i].dd1Zajete = [];
+              result.rows[i].dd1.push(Hod+':00');
+              result.rows[i].dd1Zajete.push('hour');
+              var iter = 0;
+              while (Hod != Hdo && result.rows[i].dd1.length<17) {
+                var ostatniaGodzina = result.rows[i].dd1[result.rows[i].dd1.length-1];
+                if (parseInt(ostatniaGodzina.substr(ostatniaGodzina.indexOf(':')+1, ostatniaGodzina.length))+czas_wizyty==60) {
+                  if (Hod<10) {
+                    Hod++;
+                    Hod = ("0" + Hod).slice(-2);
+                  } else {
+                    Hod++;
+                  }
+                  result.rows[i].dd1.push(Hod+':00');
+                  result.rows[i].dd1Zajete.push('hour');
+                } else {
+                  var minuty =  parseInt(ostatniaGodzina.substr(ostatniaGodzina.indexOf(':')+1, ostatniaGodzina.length))+czas_wizyty;
+                  result.rows[i].dd1.push(Hod+':'+minuty);
+                  result.rows[i].dd1Zajete.push('hour');
+                }
+                for (f=0; f <takenVisitNumber; f++) {
+                  var dni = getActualDate();
+                  var x = new Date(takenVisit[f].data);
+                  var miesiac = ("0" + (x.getMonth()+1)).slice(-2);
+                  var dzien = ("0" + x.getDate()).slice(-2);
+                  var data = dzien.concat('.'+miesiac);
+                  if (result.rows[i].dd1[iter] == takenVisit[f].godzina.substring(0,5) &&
+                    result.rows[i].id_lekarza == takenVisit[f].idek &&
+                    (dni.today == data)) {
+                    result.rows[i].dd1Zajete[result.rows[i].dd1Zajete.length-1] = 'hour_red';
+                  }
+                }
+                iter++;
+              }
+            }
+            if (przedzial2 != null) {
+              var Hod = przedzial2.substr(0, przedzial2.indexOf('-'));
+              var Hdo = przedzial2.substr(przedzial2.indexOf('-')+1, przedzial2.length);
+              result.rows[i].dd2 = [];
+              result.rows[i].dd2Zajete = [];
+              result.rows[i].dd2.push(Hod+':00');
+              result.rows[i].dd2Zajete.push('hour');
+              var iter = 0;
+              while (Hod != Hdo && result.rows[i].dd2.length<17) {
+                var ostatniaGodzina = result.rows[i].dd2[result.rows[i].dd2.length-1];
+                if (parseInt(ostatniaGodzina.substr(ostatniaGodzina.indexOf(':')+1, ostatniaGodzina.length))+czas_wizyty==60) {
+                  if (Hod<10) {
+                    Hod++;
+                    Hod = ("0" + Hod).slice(-2);
+                  } else {
+                    Hod++;
+                  }
+                  result.rows[i].dd2.push(Hod+':00');
+                  result.rows[i].dd2Zajete.push('hour');
+                } else {
+                  var minuty =  parseInt(ostatniaGodzina.substr(ostatniaGodzina.indexOf(':')+1, ostatniaGodzina.length))+czas_wizyty;
+                  result.rows[i].dd2.push(Hod+':'+minuty);
+                  result.rows[i].dd2Zajete.push('hour');
+                }
+                for (f=0; f <takenVisitNumber; f++) {
+                  var dni = getActualDate();
+                  var x = new Date(takenVisit[f].data);
+                  var miesiac = ("0" + (x.getMonth()+1)).slice(-2);
+                  var dzien = ("0" + x.getDate()).slice(-2);
+                  var data = dzien.concat('.'+miesiac);
+                  if (result.rows[i].dd2[iter] == takenVisit[f].godzina.substring(0,5) &&
+                    result.rows[i].id_lekarza == takenVisit[f].idek &&
+                    (dni.tommorow == data)) {
+                    result.rows[i].dd2Zajete[result.rows[i].dd2Zajete.length-1] = 'hour_red';
+                  }
+                }
+                iter++;
+              }
+            }
+            if (przedzial3 != null ) {
+              var Hod = przedzial3.substr(0, przedzial3.indexOf('-'));
+              var Hdo = przedzial3.substr(przedzial3.indexOf('-')+1, przedzial3.length);
+              result.rows[i].dd3 = [];
+              result.rows[i].dd3Zajete = [];
+              result.rows[i].dd3.push(Hod+':00');
+              result.rows[i].dd3Zajete.push('hour');
+              var iter = 0;
+              while (Hod != Hdo && result.rows[i].dd3.length<17) {
+                var ostatniaGodzina = result.rows[i].dd3[result.rows[i].dd3.length-1];
+                if (parseInt(ostatniaGodzina.substr(ostatniaGodzina.indexOf(':')+1, ostatniaGodzina.length))+czas_wizyty==60) {
+                  if (Hod<10) {
+                    Hod++;
+                    Hod = ("0" + Hod).slice(-2);
+                  } else {
+                    Hod++;
+                  }
+                  result.rows[i].dd3.push(Hod+':00');
+                  result.rows[i].dd3Zajete.push('hour');
+                } else {
+                  var minuty =  parseInt(ostatniaGodzina.substr(ostatniaGodzina.indexOf(':')+1, ostatniaGodzina.length))+czas_wizyty;
+                  result.rows[i].dd3.push(Hod+':'+minuty);
+                  result.rows[i].dd3Zajete.push('hour');
+                }
+                for (f=0; f <takenVisitNumber; f++) {
+                  var dni = getActualDate();
+                  var x = new Date(takenVisit[f].data);
+                  var miesiac = ("0" + (x.getMonth()+1)).slice(-2);
+                  var dzien = ("0" + x.getDate()).slice(-2);
+                  var data = dzien.concat('.'+miesiac);
+                  if (result.rows[i].dd3[iter] == takenVisit[f].godzina.substring(0,5) &&
+                    result.rows[i].id_lekarza == takenVisit[f].idek &&
+                    (dni.tommorowNext == data)) {
+                    result.rows[i].dd3Zajete[result.rows[i].dd3Zajete.length-1] = 'hour_red';
+                  }
+                }
+                iter++;
+              }
+            }
+            //console.log(result.rows[i]);
+          }
+          var infoIlosc = "";
+          if (y == 0 ) {
+            infoIlosc = "Nie znaleziono lekarzy w bazie dla podanych parametrów:";
+          }
+          var selectedDoc = {
+            "specjalnosc" : selectedDoctorVar,
+            "miasto" : selectedCityVar,
+            "infoIlosc":infoIlosc
+          };
+
+          res.render('results', {list: result.rows, doktor: selectedDoc, dni: getActualDate()});
+          done();
+        });
+
+
+    });
+
+
   });
 
 });
@@ -184,3 +339,54 @@ app.listen(3000, function () {
   console.log("Server starts on port 3000");
 });
 
+
+function getActualDate() {
+  var today = new Date();
+  var dd = today.getDate();
+  var dd1 = today.getDate()+1;
+  var dd2 = today.getDate()+2;
+  var mm = today.getMonth()+1; //January is 0!
+  if(dd<10) {dd='0'+dd}
+  if(dd1<10) {dd1='0'+dd1}
+  if(dd2<10) {dd2='0'+dd2}
+  if(mm<10) {mm='0'+mm}
+  return {"today":dd+'.'+mm, "tommorow":dd1+'.'+mm, "tommorowNext":dd2+'.'+mm};
+}
+
+function returnActualDays(x) {
+  return getActualDay(x);
+}
+
+function getActualDay(x) {
+  var day = "";
+  switch (x) {
+    case 0:
+      day = "nd";
+      break;
+    case 1:
+      day = "pon";
+      break;
+    case 2:
+      day = "wt";
+      break;
+    case 3:
+      day = "sr";
+      break;
+    case 4:
+      day = "czw";
+      break;
+    case 5:
+      day = "pt";
+      break;
+    case 6:
+      day = "sob";
+      break;
+    case 7:
+      day = "nd";
+      break;
+    case 8:
+      day = "pon";
+      break;
+  }
+  return day;
+}

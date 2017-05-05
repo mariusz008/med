@@ -3830,6 +3830,7 @@ body {
 
 .hour {
   background: #f2f2f2;
+  font-size: 11px;
   border-bottom: 2px solid white;
   color: #14679E;
   font-weight: bold;
@@ -3844,6 +3845,7 @@ body {
 
 .hour_red {
   background: #f2f2f2;
+  font-size: 11px;
   border-bottom: 2px solid white;
   color: #cc0000;
   font-weight: bold;
@@ -4279,13 +4281,15 @@ body {
   padding-left: 20px; }
 
 .datefont {
-  float: left; }
+  float: left;
+  font-size: 14px;}
 
 .leftp {
   padding-left: 67px; }
 
 .leftf {
-  padding-left: 13px; }
+  padding-left: 14px;
+  padding-top: 14px;}
 
 .nameFieldfont {
   font-size: 17px;
