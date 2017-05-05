@@ -310,7 +310,6 @@ app.get('/doctorsList', function(req, res) {
                 iter++;
               }
             }
-            //console.log(result.rows[i]);
           }
           var infoIlosc = "";
           if (y == 0 ) {
@@ -321,17 +320,11 @@ app.get('/doctorsList', function(req, res) {
             "miasto" : selectedCityVar,
             "infoIlosc":infoIlosc
           };
-
           res.render('results', {list: result.rows, doktor: selectedDoc, dni: getActualDate()});
           done();
         });
-
-
     });
-
-
   });
-
 });
 
 //Server
