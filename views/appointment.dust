@@ -1,0 +1,89 @@
+{>"appointment_layout" /}
+
+{<selected_doctor}
+  {#dane}
+<section class="appointment">
+  <div class="row">
+    <div class="medium-6 columns"><h4 class="appointmentDoctorFont">Dr {imie} {nazwisko}</h4>
+      <p class="appointmentDoctorProffesionFont">{specjalnosc}</p></div>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="medium-12 columns">
+        <div class="row">
+          <div class="medium-5 columns">
+            <div class="leftAddressPart">
+
+              <b>Adres:</b><span class="fontaddress">{adres}, {miasto}</span>
+              <br/><br/>
+              <b>Telefon:</b><span class="fontaddress">{telefon}</span>
+              <br/><br/>
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d80127.74176884032!2d16.921653213305007!3d51.12705688085621!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470fe9c2d4b58abf%3A0xb70956aec205e0f5!2zV3JvY8WCYXc!5e0!3m2!1spl!2spl!4v1494263380692" width="400" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
+              <br/><br/>
+              <div class="buttonvisit">
+                <button class="button small">&#160; Zarejestruj się</button>
+              </div>
+            </div>
+          </div>
+          <div class="medium-7 columns border">
+            <div class="row">
+              {#weekDate} {#weekDays}
+              <div class="daysofweek"><p class="daysfont">{first}</p>
+                <div class="data"><p class="borderfont">{first_date}</p>
+                  {#dd1}
+                    <div class="{dd1Zajete[$idx]}">{dd1[$idx]}</div>
+                  {/dd1}
+                </div>
+              </div>
+              <div class="daysofweek"><p class="daysfont">{second}</p>
+                <div class="data"><p class="borderfont">{second_date}</p>
+                  {#dd2}
+                    <div class="{dd2Zajete[$idx]}">{dd2[$idx]}</div>
+                  {/dd2}
+                </div>
+              </div>
+              <div class="daysofweek"><p class="daysfont">{third}</p>
+                <div class="data"><p class="borderfont">{third_date}</p>
+                  {#dd3}
+                    <div class="{dd3Zajete[$idx]}">{dd3[$idx]}</div>
+                  {/dd3}
+                </div>
+              </div>
+              <div class="daysofweek"><p class="daysfont">{fourth}</p>
+                <div class="data"><p class="borderfont">{fourth_date}</p>
+                  {#dd4}
+                    <div class="{dd4Zajete[$idx]}">{dd4[$idx]}</div>
+                  {/dd4}
+                </div>
+              </div>
+              <div class="daysofweek"><p class="daysfont">{fifth}</p>
+                <div class="data"><p class="borderfont">{fifth_date}</p>
+                  {#dd5}
+                    <div class="{dd5Zajete[$idx]}">{dd5[$idx]}</div>
+                  {/dd5}
+                </div>
+              </div>
+              <div class="daysofweek"><p class="daysfont">{sixth}</p>
+                <div class="data"><p class="borderfont">{sixth_date}</p>
+                  {#dd6}
+                    <div class="{dd6Zajete[$idx]}">{dd6[$idx]}</div>
+                  {/dd6}
+                </div>
+              </div>
+              <div class="daysofweeklast"><p class="daysfont">{seventh}</p>
+                <div class="data"><p class="borderfont">{seventh_date}</p>
+                  {#dd7}
+                    <div class="{dd7Zajete[$idx]}">{dd7[$idx]}</div>
+                  {/dd7}
+                </div>
+              </div>
+              {/weekDays} {/weekDate}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+    {/dane}
+{/selected_doctor}

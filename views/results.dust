@@ -6,6 +6,7 @@
   <section class="results section"><p class="mainResultfont">{infoIlosc} {specjalnosc}, {miasto}</p>
   {/doktor}
   {#list}
+    <form action="/selectDoctor/{idlekarza}" method="post">
     <div class="resultsField">
       <div class="topField">
         <div class="medium-7 columns"></div>
@@ -24,8 +25,8 @@
         </div>
         <div class="addressField"><b>Adress:</b><span class="fontaddress">{adres}, {miasto}</span><br><br>
           <b>Telefon:</b><span class="fontaddress">{telefon}</span><br><br>
-          <div class="buttonvisit">
-            <button class="button small"><i aria-hidden="true" class="fa fa-calendar"></i>&#160; Umów wizytę</button>
+          <div class="buttonvisit" id="lekarz_{idlekarza}">
+            <button class="button small" href="#lekarz_{idlekarza}"><i aria-hidden="true" class="fa fa-calendar"></i>&#160; Umów wizytę</button>
           </div>
         </div>
       </div>
@@ -47,6 +48,8 @@
         </div>
       </div>
     </div>
+    </form>
   </section>
+
   {/list}
 {/selected_doctor}
