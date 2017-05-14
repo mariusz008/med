@@ -66,14 +66,14 @@
               <div class="daysofweek"><p class="daysfont">{sixth}</p>
                 <div class="data"><p class="borderfont">{sixth_date}</p>
                   {#dd6}
-                    <div class="{dd6Zajete[$idx]}">{dd6[$idx]}</div>
+                    <div class="{dd6Zajete[$idx]}" data-id="sixthDay">{dd6[$idx]}</div>
                   {/dd6}
                 </div>
               </div>
               <div class="daysofweeklast"><p class="daysfont">{seventh}</p>
                 <div class="data"><p class="borderfont">{seventh_date}</p>
                   {#dd7}
-                    <div class="{dd7Zajete[$idx]}">{dd7[$idx]}</div>
+                    <div class="{dd7Zajete[$idx]}" id="seventhDay">{dd7[$idx]}</div>
                   {/dd7}
                 </div>
               </div>

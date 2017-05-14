@@ -268,7 +268,6 @@ app.get('/doctorsList', function(req, res) {
                     result.rows[i].id_lekarza == takenVisit[f].idek &&
                     (dni.tommorow == data)) {
                     result.rows[i].dd2Zajete[result.rows[i].dd2Zajete.length-2] = 'hour_red';
-                    console.log("jest" + f + " " + i);
                   }
                 }
                 iter++;
@@ -330,7 +329,7 @@ app.get('/doctorsList', function(req, res) {
   });
 });
 
-app.post('/selectDoctor/:idlekarza', function(req, res) {
+app.post('/selectDoctor/:id_lekarza', function(req, res) {
   pg.connect(connect, function (err, client, done) {
     if (err) {
       return console.error('error', err);
@@ -341,11 +340,10 @@ app.post('/selectDoctor/:idlekarza', function(req, res) {
       'FROM terminarz as t '+
       'join wizyta as w '+
       'on t.id_lekarza = w.id_lekarza '+
-      'where zajete = true and t.id_lekarza = $1', [req.params.idlekarza],  function(err, result1) {
+      'where zajete = true and t.id_lekarza = $1', [req.params.id_lekarza],  function(err, result1) {
       if (err) {
         return console.error('error running query', err);
       }
-      console.log(result1.rows);
       takenVisit = result1.rows;
       takenVisitNumber = result1.rowCount;
 
@@ -356,11 +354,10 @@ app.post('/selectDoctor/:idlekarza', function(req, res) {
           'FROM lekarz as l ' +
           'JOIN terminarz as t ' +
           'ON l.id_lekarza = t.id_lekarza ' +
-          'where l.id_lekarza = $1', [req.params.idlekarza], function(err, result) {
+          'where l.id_lekarza = $1', [req.params.id_lekarza], function(err, result) {
           if (err) {
             return console.error('error running query', err);
           }
-          //console.log(result.rows);
           var czas_wizyty = result.rows[0].czas_wizyty;
 
           result.rows[0].all = [];
@@ -443,14 +440,9 @@ app.post('/selectDoctor/:idlekarza', function(req, res) {
           res.render('appointment', {dane: result.rows, weekDate:getActualWeek(), weekDays:getActualWeekDays()});
           done();
         });
-
     });
-    //console.log();
-
-
   });
 });
-
 
 //Server
 app.listen(3000, function () {

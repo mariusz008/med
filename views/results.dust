@@ -6,7 +6,7 @@
   <section class="results section"><p class="mainResultfont">{infoIlosc} {specjalnosc}, {miasto}</p>
   {/doktor}
   {#list}
-    <form action="/selectDoctor/{idlekarza}" method="post">
+    <form action="/selectDoctor/{id_lekarza}" method="post">
     <div class="resultsField">
       <div class="topField">
         <div class="medium-7 columns"></div>
