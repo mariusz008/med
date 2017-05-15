@@ -24,6 +24,7 @@ app.set('view engine', 'dust');
 app.set('views', __dirname + '\\views');
 app.use(router);
 app.use(express.static(path.join(__dirname, 'views')));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -444,6 +445,22 @@ app.post('/selectDoctor/:id_lekarza', function(req, res) {
   });
 });
 
+
+app.get('/selectedHour/doc=:id_lekarza&d=:date&h=:hour&t=:taken', function(req, res) {
+  var id_lekarza = req.params.id_lekarza;
+  var dzien = req.params.date;
+  var godzina = req.params.hour;
+
+  var taken = req.params.taken;
+
+  if (taken === 'hour_red') {
+    console.log("Zajęte");
+  } else {
+    console.log("Wolne");
+  }
+
+
+});
 //Server
 app.listen(3000, function () {
   console.log("Server starts on port 3000");

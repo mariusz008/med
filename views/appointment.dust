@@ -31,49 +31,49 @@
               <div class="daysofweek"><p class="daysfont">{first}</p>
                 <div class="data"><p class="borderfont">{first_date}</p>
                   {#dd1}
-                    <div class="{dd1Zajete[$idx]}">{dd1[$idx]}</div>
+                    <div class="{dd1Zajete[$idx]}"><a class="{dd1Zajete[$idx]}" href="http://localhost:3000/selectedHour/doc={idlekarza}&d={first_date}&h={dd1[$idx]}&t={dd1Zajete[$idx]}">{dd1[$idx]}</a></div>
                   {/dd1}
                 </div>
               </div>
               <div class="daysofweek"><p class="daysfont">{second}</p>
                 <div class="data"><p class="borderfont">{second_date}</p>
                   {#dd2}
-                    <div class="{dd2Zajete[$idx]}">{dd2[$idx]}</div>
+                    <div class="{dd2Zajete[$idx]}"><a class="{dd2Zajete[$idx]}" href="http://localhost:3000/selectedHour/doc={idlekarza}&d={second_date}&h={dd2[$idx]}&t={dd2Zajete[$idx]}">{dd2[$idx]}</a></div>
                   {/dd2}
                 </div>
               </div>
               <div class="daysofweek"><p class="daysfont">{third}</p>
                 <div class="data"><p class="borderfont">{third_date}</p>
                   {#dd3}
-                    <div class="{dd3Zajete[$idx]}">{dd3[$idx]}</div>
+                    <div class="{dd3Zajete[$idx]}"><a class="{dd3Zajete[$idx]}" href="http://localhost:3000/selectedHour/doc={idlekarza}&d={third_date}&h={dd3[$idx]}&t={dd3Zajete[$idx]}">{dd3[$idx]}</a></div>
                   {/dd3}
                 </div>
               </div>
               <div class="daysofweek"><p class="daysfont">{fourth}</p>
                 <div class="data"><p class="borderfont">{fourth_date}</p>
                   {#dd4}
-                    <div class="{dd4Zajete[$idx]}">{dd4[$idx]}</div>
+                    <div class="{dd4Zajete[$idx]}"><a class="{dd4Zajete[$idx]}" href="http://localhost:3000/selectedHour/doc={idlekarza}&d={fourth_date}&h={dd4[$idx]}&t={dd4Zajete[$idx]}">{dd4[$idx]}</a></div>
                   {/dd4}
                 </div>
               </div>
               <div class="daysofweek"><p class="daysfont">{fifth}</p>
                 <div class="data"><p class="borderfont">{fifth_date}</p>
                   {#dd5}
-                    <div class="{dd5Zajete[$idx]}">{dd5[$idx]}</div>
+                    <div class="{dd5Zajete[$idx]}"><a class="{dd5Zajete[$idx]}" href="http://localhost:3000/selectedHour/doc={idlekarza}&d={fifth_date}&h={dd5[$idx]}&t={dd5Zajete[$idx]}">{dd5[$idx]}</a></div>
                   {/dd5}
                 </div>
               </div>
               <div class="daysofweek"><p class="daysfont">{sixth}</p>
                 <div class="data"><p class="borderfont">{sixth_date}</p>
                   {#dd6}
-                    <div class="{dd6Zajete[$idx]}" data-id="sixthDay">{dd6[$idx]}</div>
+                    <div class="{dd6Zajete[$idx]}"><a class="{dd6Zajete[$idx]}" href="http://localhost:3000/selectedHour/doc={idlekarza}&d={sixth_date}&h={dd6[$idx]}&t={dd6Zajete[$idx]}">{dd6[$idx]}</a></div>
                   {/dd6}
                 </div>
               </div>
               <div class="daysofweeklast"><p class="daysfont">{seventh}</p>
                 <div class="data"><p class="borderfont">{seventh_date}</p>
                   {#dd7}
-                    <div class="{dd7Zajete[$idx]}" id="seventhDay">{dd7[$idx]}</div>
+                    <div class="{dd7Zajete[$idx]}"><a class="{dd7Zajete[$idx]}" href="http://localhost:3000/selectedHour/doc={idlekarza}&d={seventh_date}&h={dd7[$idx]}&t={dd7Zajete[$idx]}">{dd7[$idx]}</a></div>
                   {/dd7}
                 </div>
               </div>
