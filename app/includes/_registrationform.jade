@@ -1,0 +1,62 @@
+section.form_
+  //form.register__form
+
+  form.register__form(data-abide='', novalidate='')
+    .alert.callout(data-abide-error='', style='display: none;')
+      p
+        i.fi-alert
+        |  There are some errors in your form.
+    p.register__title.row.darkest Umawianie wizyty
+
+    .row
+      p.appointmentdata.darkest Dane o wizycie
+      .medium-6.columns
+        label Data
+          input(type="text" name="Data" value="18.05.2017" readonly)
+
+      .medium-6.columns
+        label Godzina
+          input(type="text" name="Godzina" readonly)
+    .row
+      .medium-6.columns
+        label Lekarz
+          input(type="text" name="Lekarz" readonly)
+
+      .medium-6.columns
+        label Cena
+          input(type="text" name="Cena" readonly)
+
+    .row
+      p.appointmentdata.darkest Dane o pacjencie
+      .medium-6.columns
+        label Imię
+          input(type="text" name="Imie")
+
+      .medium-6.columns
+        label Nazwisko
+          input(type="text" name="Nazwisko")
+
+    .row
+      .medium-6.columns
+        label Pesel
+          input(type="text" name="Pesel", placeholder='54022405478', aria-describedby='exampleHelpText', required='', pattern='number')
+          span.form-error
+            | Pesel nie jest poprawny
+      .medium-6.columns
+        label Telefon
+          input(type="text" name="Telefon",placeholder='725605987', aria-describedby='exampleHelpText', required='', pattern='number')
+          span.form-error
+            | Numer nie jest poprawny
+
+    .row
+      .medium-6.columns
+        label E-mail
+          input(type="text" name="E-mail",placeholder='ela@wp.pl', aria-describedby='exampleHelpText', required='', pattern='email')
+    .row
+      .medium-6.columns
+        input(type='checkbox')
+        label Akceptuję regulamin serwisu TwójLekarz
+    .row
+      .medium-6.columns
+        button.button.small.greencolor Gotowe
+
