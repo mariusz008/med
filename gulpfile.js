@@ -73,6 +73,12 @@ gulp.task("jade", function() {
     .pipe(jade())
     .pipe(gulp.dest("./public/"));
 });
+gulp.task("jade", function() {
+  return gulp.src("./app/registrationDone.jade")
+    .pipe(plumber())
+    .pipe(jade())
+    .pipe(gulp.dest("./public/"));
+});
 gulp.task("connect", function() {
   connect.server({
     root: "public",
@@ -109,6 +115,10 @@ gulp.task("html", function () {
 });
 gulp.task("html", function () {
   gulp.src("./public/registration.html")
+    .pipe(connect.reload());
+});
+gulp.task("html", function () {
+  gulp.src("./public/registrationDone.html")
     .pipe(connect.reload());
 });
 gulp.task("css", function () {
