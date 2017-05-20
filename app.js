@@ -35,6 +35,8 @@ var correctDoctor = false;
 var correctCity = false;
 var loginPesel, noSuchPersonInDb, tempDoctorID, takenVisit;
 var takenVisitNumber;
+var zajeteGG = "";
+var zajeteTresc = { "tresc" : zajeteGG};
 
 router.get('/', function (req, res) {
   specjalnosci="";
@@ -330,7 +332,7 @@ app.get('/doctorsList', function(req, res) {
   });
 });
 
-app.post('/selectDoctor/:id_lekarza', function(req, res) {
+app.get('/selectDoctor/:id_lekarza', function(req, res) {
   pg.connect(connect, function (err, client, done) {
     if (err) {
       return console.error('error', err);
@@ -437,7 +439,7 @@ app.post('/selectDoctor/:id_lekarza', function(req, res) {
           result.rows[0].dd6Zajete = result.rows[0].zajete[5];
           result.rows[0].dd7Zajete = result.rows[0].zajete[6];
 
-
+          result.rows[0].zajete = zajeteGG;
           res.render('appointment', {dane: result.rows, weekDate:getActualWeek(), weekDays:getActualWeekDays()});
           done();
         });
@@ -447,19 +449,102 @@ app.post('/selectDoctor/:id_lekarza', function(req, res) {
 
 
 app.get('/selectedHour/doc=:id_lekarza&d=:date&h=:hour&t=:taken', function(req, res) {
-  var id_lekarza = req.params.id_lekarza;
-  var dzien = req.params.date;
-  var godzina = req.params.hour;
+  pg.connect(connect, function (err, client, done) {
+    if (err) {
+      return console.error('error', err);
+    }
+    var id_lekarza = req.params.id_lekarza;
+    var dzien = req.params.date + '.2017';
+    var godzina = req.params.hour;
 
-  var taken = req.params.taken;
+    var taken = req.params.taken;
 
-  if (taken === 'hour_red') {
-    console.log("Zajęte");
-  } else {
-    console.log("Wolne");
-  }
+    if (taken === 'hour_red') {
+      zajeteGG = "Niestety, ten termin jest już zajęty!";
+      var url = '/selectDoctor/' + id_lekarza;
+      res.redirect(url);
+    } else {
+      zajeteGG = "";
+      client.query('SELECT * ' +
+        'FROM lekarz ' +
+        'where id_lekarza = $1', [id_lekarza], function (err, result) {
+        if (err) {
+          return console.error('error running query', err);
+        }
+        var daneLekarza = {
+          "id": id_lekarza,
+          "data": dzien,
+          "godzina": godzina,
+          "lekarz": result.rows[0].imie + ' ' + result.rows[0].nazwisko,
+          "specjalnosc": result.rows[0].specjalnosc,
+          "adres": result.rows[0].miasto + ', ' + result.rows[0].adres
+        };
+        var danePacjenta = {
+          "imie": userImie,
+          "nazwisko": userNazwisko,
+          "pesel": userPesel,
+          "telefon": userTelefon,
+          "email": userEmail
+        };
+        res.render('submitRegistration', {daneL: daneLekarza, daneP: danePacjenta});
+        done();
+      });
 
 
+    }
+  });
+});
+
+app.post('/submitRegistrator/:id', function(req, res) {
+  pg.connect(connect, function (err, client, done) {
+    if (err) {
+      return console.error('error', err);
+    }
+
+    var g = "";
+    var di = "";
+
+    var komunikat = {
+      "glowny" : g,
+      "drugieInfo" : di
+    };
+
+    var cena = req.body.Cena;
+    if (cena === '') {
+      cena = 0;
+    }
+    // console.log(req.params.id);
+    // console.log(req.body.Pesel);
+    // console.log(cena);
+    // console.log(req.body.Data);
+    // console.log(req.body.Godzina);
+    client.query('INSERT INTO wizyta (id_lekarza, pesel_pacjenta, odplatna, zajete, data, godzina) VALUES($1, $2, $3, $4, $5, $6)',
+      [req.params.id, req.body.Pesel, cena, 'true', req.body.Data, req.body.Godzina], function(err, result) {
+        if(err) {
+          // return console.error('register error', err);
+          komunikat = {
+            "glowny" : "Wystąpił nieznany błąd. Proszę spróbować poźniej",
+            "drugieInfo" : "Sprawdź czy poprawnie wypełniłeś formularz"
+          };
+
+        }
+        done();
+        komunikat = {
+          "glowny" : "Rejestracja przebiegła pomyślnie",
+          "drugieInfo" : "Na twój email zostało wysłane potwierdzenie spotkania"
+        };
+        var infoRejestracji = {
+          "data": req.body.Data,
+          "godzina": req.body.Godzina,
+          "lekarz": req.body.Lekarz,
+          "specjalnosc": req.body.Dziedzina,
+          "adres": req.body.Adres,
+          "cena" : req.body.Cena
+        };
+        res.render("registrationSuccessful", {info: komunikat, lekarz: infoRejestracji});
+        console.log(komunikat);
+      });
+  });
 });
 //Server
 app.listen(3000, function () {
