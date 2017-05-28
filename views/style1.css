@@ -1431,7 +1431,7 @@ cite {
   font-size: 0.8125rem;
   color: #8a8a8a; }
 cite:before {
-  content: "— "; }
+  content: "� "; }
 
 abbr {
   border-bottom: 1px dotted #0a0a0a;
@@ -4009,6 +4009,10 @@ body {
 .navigation__item {
   padding-left: 20px; }
 
+.navigation__item_hidden {
+  padding-left: 20px;
+  visibility: hidden;}
+
 .navigation__link {
   position: relative; }
 .navigation__link:after {
@@ -4357,6 +4361,15 @@ body {
 
 .borderfont {
   border-bottom: 2px solid #e0e1da; }
+
+.appointmentdata {
+  padding-left: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-align: center;
+  padding-top: 15px;
+  padding-bottom: 15px; }
 
 .fontSuccess {
   font-weight: bold;

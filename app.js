@@ -12,7 +12,7 @@ var express = require('express'),
   app = express();
 var cheerio = require('cheerio');
 
-
+var kom = "";
 var connect = "postgress://m008:admin@localhost/med";
 
 // app.engine('html', require('ejs').renderFile);
@@ -37,6 +37,10 @@ var loginPesel, noSuchPersonInDb, tempDoctorID, takenVisit;
 var takenVisitNumber;
 var zajeteGG = "";
 var zajeteTresc = { "tresc" : zajeteGG};
+var infoL, infoR = {};
+var zalogujStyle = "navigation__item";
+var imieStyle = "navigation__item_hidden";
+var daneZalogowany = { "imieZalogowany": userImie, "zalogujStyle": zalogujStyle, "imieStyle":imieStyle};
 
 router.get('/', function (req, res) {
   specjalnosci="";
@@ -62,7 +66,7 @@ router.get('/', function (req, res) {
       miasta =result.rows;
       miastaIlosc = result.rowCount;
 
-      res.render('index', {spec: specjalnosci, miasta: miasta});
+      res.render('index', {spec: specjalnosci, miasta: miasta, login:daneZalogowany});
       done();
     });
   });
@@ -115,7 +119,14 @@ app.get('/login', function (req, res) {
             userEmail= result.rows[0].email;
             userTelefon = result.rows[0].telefon;
             userZalogowany = true;
+            zalogujStyle = "navigation__item_hidden";
+            imieStyle = "navigation__item";
+            daneZalogowany = {
+              "imieZalogowany": userImie, "zalogujStyle": 'navigation__item_hidden', "imieStyle":'navigation__item'
+            };
+            console.log(daneZalogowany);
             res.redirect("/");
+
           } else {
             console.log("haslo bledne");
             noSuchPersonInDb = "Błędne hasło";
@@ -123,7 +134,7 @@ app.get('/login', function (req, res) {
             res.redirect("signIn");
           }
         }
-        console.log(userPesel+" "+userImie+" "+userNazwisko);
+        //console.log(userPesel+" "+userImie+" "+userNazwisko);
       });
   });
 });
@@ -152,8 +163,11 @@ app.post('/getDoctors', function (req, res) {
 });
 
 app.get('/signIn', function(req, res) {
-
   res.render('signIn', {pesel: {"peselForm":loginPesel, "info":noSuchPersonInDb}});
+});
+
+app.get('/register', function(req, res) {
+  res.render('register');
 });
 
 app.get('/doctorsList', function(req, res) {
@@ -325,7 +339,17 @@ app.get('/doctorsList', function(req, res) {
             "miasto" : selectedCityVar,
             "infoIlosc":infoIlosc
           };
-          res.render('results', {list: result.rows, doktor: selectedDoc, dni: getActualDate()});
+           if (userZalogowany) {
+             daneZalogowany = {
+               "imieZalogowany": userImie, "zalogujStyle": 'navigation__item_hidden', "imieStyle":'navigation__item'
+             };
+           } else {
+             daneZalogowany = {
+               "imieZalogowany": userImie, "zalogujStyle": 'navigation__item', "imieStyle":'navigation__item_hidden'
+             };
+           }
+           //console.log(daneZalogowany);
+          res.render('results', {list: result.rows, doktor: selectedDoc, dni: getActualDate(), login:daneZalogowany});
           done();
         });
     });
@@ -350,99 +374,108 @@ app.get('/selectDoctor/:id_lekarza', function(req, res) {
       takenVisit = result1.rows;
       takenVisitNumber = result1.rowCount;
 
-        client.query('SELECT "l" as all, "l" as zajete, l.id_lekarza as idlekarza, l.imie, l.nazwisko, l.specjalnosc, l.telefon, l.czas_wizyty as czas_wizyty, l.adres, l.miasto, ' +
-          't.'+returnActualDays(day1)+' as dd1, t.'+returnActualDays(day1+1)+' as dd2, t.'+returnActualDays(day1+2)+' as dd3, ' +
-          't.'+returnActualDays((day1+3)%7)+' as dd4, t.'+returnActualDays((day1+4)%7)+' as dd5, t.'+returnActualDays((day1+5)%7)+' as dd6, ' +
-          't.'+returnActualDays((day1+6)%7)+' as dd7 ' +
-          'FROM lekarz as l ' +
-          'JOIN terminarz as t ' +
-          'ON l.id_lekarza = t.id_lekarza ' +
-          'where l.id_lekarza = $1', [req.params.id_lekarza], function(err, result) {
-          if (err) {
-            return console.error('error running query', err);
-          }
-          var czas_wizyty = result.rows[0].czas_wizyty;
+      client.query('SELECT "l" as all, "l" as zajete, l.id_lekarza as idlekarza, l.imie, l.nazwisko, l.specjalnosc, l.telefon, l.czas_wizyty as czas_wizyty, l.adres, l.miasto, ' +
+        't.'+returnActualDays(day1)+' as dd1, t.'+returnActualDays(day1+1)+' as dd2, t.'+returnActualDays(day1+2)+' as dd3, ' +
+        't.'+returnActualDays((day1+3)%7)+' as dd4, t.'+returnActualDays((day1+4)%7)+' as dd5, t.'+returnActualDays((day1+5)%7)+' as dd6, ' +
+        't.'+returnActualDays((day1+6)%7)+' as dd7 ' +
+        'FROM lekarz as l ' +
+        'JOIN terminarz as t ' +
+        'ON l.id_lekarza = t.id_lekarza ' +
+        'where l.id_lekarza = $1', [req.params.id_lekarza], function(err, result) {
+        if (err) {
+          return console.error('error running query', err);
+        }
+        var czas_wizyty = result.rows[0].czas_wizyty;
 
-          result.rows[0].all = [];
-          result.rows[0].zajete = [];
+        result.rows[0].all = [];
+        result.rows[0].zajete = [];
 
-          result.rows[0].all.push(result.rows[0].dd1);
-          result.rows[0].all.push(result.rows[0].dd2);
-          result.rows[0].all.push(result.rows[0].dd3);
-          result.rows[0].all.push(result.rows[0].dd4);
-          result.rows[0].all.push(result.rows[0].dd5);
-          result.rows[0].all.push(result.rows[0].dd6);
-          result.rows[0].all.push(result.rows[0].dd7);
+        result.rows[0].all.push(result.rows[0].dd1);
+        result.rows[0].all.push(result.rows[0].dd2);
+        result.rows[0].all.push(result.rows[0].dd3);
+        result.rows[0].all.push(result.rows[0].dd4);
+        result.rows[0].all.push(result.rows[0].dd5);
+        result.rows[0].all.push(result.rows[0].dd6);
+        result.rows[0].all.push(result.rows[0].dd7);
 
-          //console.log(result.rows[0]);
-          for (i=0; i<7; i++) {
-            var przedzial1 = result.rows[0].all[i];
-            if (przedzial1 != null ) {
-              var Hod = przedzial1.substr(0, przedzial1.indexOf('-'));
-              var Hdo = przedzial1.substr(przedzial1.indexOf('-')+1, przedzial1.length);
-              result.rows[0].all[i] = [];
-              result.rows[0].zajete[i] = [];
-              result.rows[0].all[i].push(Hod+':00');
-              result.rows[0].zajete[i].push('hour');
-              var iter = 0;
-              while (Hod != Hdo) {
-                var ostatniaGodzina = result.rows[0].all[i][result.rows[0].all[i].length-1];
-                if (parseInt(ostatniaGodzina.substr(ostatniaGodzina.indexOf(':')+1, ostatniaGodzina.length))+czas_wizyty==60) {
-                  if (Hod<10) {
-                    Hod++;
-                    Hod = ("0" + Hod).slice(-2);
-                  } else {
-                    Hod++;
-                  }
-                  result.rows[0].all[i].push(Hod+':00');
-                  result.rows[0].zajete[i].push('hour');
+        //console.log(result.rows[0]);
+        for (i=0; i<7; i++) {
+          var przedzial1 = result.rows[0].all[i];
+          if (przedzial1 != null ) {
+            var Hod = przedzial1.substr(0, przedzial1.indexOf('-'));
+            var Hdo = przedzial1.substr(przedzial1.indexOf('-')+1, przedzial1.length);
+            result.rows[0].all[i] = [];
+            result.rows[0].zajete[i] = [];
+            result.rows[0].all[i].push(Hod+':00');
+            result.rows[0].zajete[i].push('hour');
+            var iter = 0;
+            while (Hod != Hdo) {
+              var ostatniaGodzina = result.rows[0].all[i][result.rows[0].all[i].length-1];
+              if (parseInt(ostatniaGodzina.substr(ostatniaGodzina.indexOf(':')+1, ostatniaGodzina.length))+czas_wizyty==60) {
+                if (Hod<10) {
+                  Hod++;
+                  Hod = ("0" + Hod).slice(-2);
                 } else {
-                  var minuty =  parseInt(ostatniaGodzina.substr(ostatniaGodzina.indexOf(':')+1, ostatniaGodzina.length))+czas_wizyty;
-                  result.rows[0].all[i].push(Hod+':'+minuty);
-                  result.rows[0].zajete[i].push('hour');
+                  Hod++;
                 }
-                for (f=0; f <takenVisitNumber; f++) {
-                  var today = new Date();
-                  var dd = today.getDate() + i;
-                  var mm = today.getMonth()+1;
-                  if(dd<10) {dd='0'+dd}
-                  if(mm<10) {mm='0'+mm}
-                  var dzienX = dd+'.'+mm;
-                  var x = new Date(takenVisit[f].data);
-                  var miesiac = ("0" + (x.getMonth()+1)).slice(-2);
-                  var dzien = ("0" + x.getDate()).slice(-2);
-                  var data = dzien.concat('.'+miesiac);
-                  //console.log(data + " " + dzienX);
-                  if (result.rows[0].all[i][iter] == takenVisit[f].godzina.substring(0,5) &&
-                    (dzienX == data)) {
-                    result.rows[0].zajete[i][result.rows[0].zajete[i].length-2] = 'hour_red';
-                  }
-                }
-                iter++;
+                result.rows[0].all[i].push(Hod+':00');
+                result.rows[0].zajete[i].push('hour');
+              } else {
+                var minuty =  parseInt(ostatniaGodzina.substr(ostatniaGodzina.indexOf(':')+1, ostatniaGodzina.length))+czas_wizyty;
+                result.rows[0].all[i].push(Hod+':'+minuty);
+                result.rows[0].zajete[i].push('hour');
               }
+              for (f=0; f <takenVisitNumber; f++) {
+                var today = new Date();
+                var dd = today.getDate() + i;
+                var mm = today.getMonth()+1;
+                if(dd<10) {dd='0'+dd}
+                if(mm<10) {mm='0'+mm}
+                var dzienX = dd+'.'+mm;
+                var x = new Date(takenVisit[f].data);
+                var miesiac = ("0" + (x.getMonth()+1)).slice(-2);
+                var dzien = ("0" + x.getDate()).slice(-2);
+                var data = dzien.concat('.'+miesiac);
+                //console.log(data + " " + dzienX);
+                if (result.rows[0].all[i][iter] == takenVisit[f].godzina.substring(0,5) &&
+                  (dzienX == data)) {
+                  result.rows[0].zajete[i][result.rows[0].zajete[i].length-2] = 'hour_red';
+                }
+              }
+              iter++;
             }
           }
+        }
 
-          result.rows[0].dd1 = result.rows[0].all[0];
-          result.rows[0].dd2 = result.rows[0].all[1];
-          result.rows[0].dd3 = result.rows[0].all[2];
-          result.rows[0].dd4 = result.rows[0].all[3];
-          result.rows[0].dd5 = result.rows[0].all[4];
-          result.rows[0].dd6 = result.rows[0].all[5];
-          result.rows[0].dd7 = result.rows[0].all[6];
+        result.rows[0].dd1 = result.rows[0].all[0];
+        result.rows[0].dd2 = result.rows[0].all[1];
+        result.rows[0].dd3 = result.rows[0].all[2];
+        result.rows[0].dd4 = result.rows[0].all[3];
+        result.rows[0].dd5 = result.rows[0].all[4];
+        result.rows[0].dd6 = result.rows[0].all[5];
+        result.rows[0].dd7 = result.rows[0].all[6];
 
-          result.rows[0].dd1Zajete = result.rows[0].zajete[0];
-          result.rows[0].dd2Zajete = result.rows[0].zajete[1];
-          result.rows[0].dd3Zajete = result.rows[0].zajete[2];
-          result.rows[0].dd4Zajete = result.rows[0].zajete[3];
-          result.rows[0].dd5Zajete = result.rows[0].zajete[4];
-          result.rows[0].dd6Zajete = result.rows[0].zajete[5];
-          result.rows[0].dd7Zajete = result.rows[0].zajete[6];
+        result.rows[0].dd1Zajete = result.rows[0].zajete[0];
+        result.rows[0].dd2Zajete = result.rows[0].zajete[1];
+        result.rows[0].dd3Zajete = result.rows[0].zajete[2];
+        result.rows[0].dd4Zajete = result.rows[0].zajete[3];
+        result.rows[0].dd5Zajete = result.rows[0].zajete[4];
+        result.rows[0].dd6Zajete = result.rows[0].zajete[5];
+        result.rows[0].dd7Zajete = result.rows[0].zajete[6];
 
-          result.rows[0].zajete = zajeteGG;
-          res.render('appointment', {dane: result.rows, weekDate:getActualWeek(), weekDays:getActualWeekDays()});
-          done();
-        });
+        result.rows[0].zajete = zajeteGG;
+        if (userZalogowany) {
+          daneZalogowany = {
+            "imieZalogowany": userImie, "zalogujStyle": 'navigation__item_hidden', "imieStyle":'navigation__item'
+          };
+        } else {
+          daneZalogowany = {
+            "imieZalogowany": userImie, "zalogujStyle": 'navigation__item', "imieStyle":'navigation__item_hidden'
+          };
+        }
+        res.render('appointment', {dane: result.rows, weekDate:getActualWeek(), weekDays:getActualWeekDays(), login:daneZalogowany});
+        done();
+      });
     });
   });
 });
@@ -454,7 +487,12 @@ app.get('/selectedHour/doc=:id_lekarza&d=:date&h=:hour&t=:taken', function(req, 
       return console.error('error', err);
     }
     var id_lekarza = req.params.id_lekarza;
-    var dzien = req.params.date + '.2017';
+    //if (req.params.date.substring(5,9) === '.2017') {
+   //   var dzien = req.params.date;
+ //   } else {
+      var dzien = req.params.date + '.2017';
+  //  }
+
     var godzina = req.params.hour;
 
     var taken = req.params.taken;
@@ -477,7 +515,8 @@ app.get('/selectedHour/doc=:id_lekarza&d=:date&h=:hour&t=:taken', function(req, 
           "godzina": godzina,
           "lekarz": result.rows[0].imie + ' ' + result.rows[0].nazwisko,
           "specjalnosc": result.rows[0].specjalnosc,
-          "adres": result.rows[0].miasto + ', ' + result.rows[0].adres
+          "adres": result.rows[0].miasto + ', ' + result.rows[0].adres,
+          "kom":kom
         };
         var danePacjenta = {
           "imie": userImie,
@@ -486,7 +525,16 @@ app.get('/selectedHour/doc=:id_lekarza&d=:date&h=:hour&t=:taken', function(req, 
           "telefon": userTelefon,
           "email": userEmail
         };
-        res.render('submitRegistration', {daneL: daneLekarza, daneP: danePacjenta});
+        if (userZalogowany) {
+          daneZalogowany = {
+            "imieZalogowany": userImie, "zalogujStyle": 'navigation__item_hidden', "imieStyle":'navigation__item'
+          };
+        } else {
+          daneZalogowany = {
+            "imieZalogowany": userImie, "zalogujStyle": 'navigation__item', "imieStyle":'navigation__item_hidden'
+          };
+        }
+        res.render('submitRegistration', {daneL: daneLekarza, daneP: danePacjenta, login:daneZalogowany});
         done();
       });
 
@@ -500,7 +548,6 @@ app.post('/submitRegistrator/:id', function(req, res) {
     if (err) {
       return console.error('error', err);
     }
-
     var g = "";
     var di = "";
 
@@ -513,39 +560,61 @@ app.post('/submitRegistrator/:id', function(req, res) {
     if (cena === '') {
       cena = 0;
     }
-    // console.log(req.params.id);
-    // console.log(req.body.Pesel);
-    // console.log(cena);
-    // console.log(req.body.Data);
-    // console.log(req.body.Godzina);
-    client.query('INSERT INTO wizyta (id_lekarza, pesel_pacjenta, odplatna, zajete, data, godzina) VALUES($1, $2, $3, $4, $5, $6)',
-      [req.params.id, req.body.Pesel, cena, 'true', req.body.Data, req.body.Godzina], function(err, result) {
-        if(err) {
-          // return console.error('register error', err);
-          komunikat = {
-            "glowny" : "Wystąpił nieznany błąd. Proszę spróbować poźniej",
-            "drugieInfo" : "Sprawdź czy poprawnie wypełniłeś formularz"
-          };
 
-        }
-        done();
-        komunikat = {
-          "glowny" : "Rejestracja przebiegła pomyślnie",
-          "drugieInfo" : "Na twój email zostało wysłane potwierdzenie spotkania"
-        };
-        var infoRejestracji = {
-          "data": req.body.Data,
-          "godzina": req.body.Godzina,
-          "lekarz": req.body.Lekarz,
-          "specjalnosc": req.body.Dziedzina,
-          "adres": req.body.Adres,
-          "cena" : req.body.Cena
-        };
-        res.render("registrationSuccessful", {info: komunikat, lekarz: infoRejestracji});
-        console.log(komunikat);
-      });
+    if (req.body.check == 'on') {
+      client.query('INSERT INTO wizyta (id_lekarza, pesel_pacjenta, imie, nazwisko, email, '+
+        'telefon, odplatna, zajete, data, godzina) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
+        [req.params.id, req.body.Pesel, req.body.Imie, req.body.Nazwisko, req.body.Email, req.body.Telefon, cena, 'true', req.body.Data, req.body.Godzina], function(err, result) {
+          if(err) {
+            // return console.error('register error', err);
+            komunikat = {
+              "glowny" : "Wystąpił nieznany błąd. Proszę spróbować poźniej",
+              "drugieInfo" : "Sprawdź czy poprawnie wypełniłeś formularz"
+            };
+            console.error('nie udalo sie zarejestrowac', err);
+
+          } else {
+            done();
+            komunikat = {
+              "glowny": "Rejestracja przebiegła pomyślnie",
+              "drugieInfo": "Na twój email zostało wysłane potwierdzenie spotkania"
+            };
+            var infoRejestracji = {
+              "data": req.body.Data,
+              "godzina": req.body.Godzina,
+              "lekarz": req.body.Lekarz,
+              "specjalnosc": req.body.Dziedzina,
+              "adres": req.body.Adres,
+              "cena": cena
+            };
+          }
+          infoL = komunikat;
+          infoR = infoRejestracji;
+
+          res.render("registrationSuccessful", {info: komunikat, lekarz: infoRejestracji});
+          done();
+        });
+    }
+    else {
+      kom = "Musisz zaakceptować regulamin";
+
+      if (req.body.Data != undefined) {
+        var d = req.body.Data.substring(0, 5);
+      }
+      var g = req.body.Godzina;
+      var url = '/selectedHour/doc='+ req.params.id +'&d=' + d + '&h=' + g + '&t=hour';
+     res.redirect(url);
+    }
+
+
   });
 });
+
+// app.get('/registrationEnded', function(req, res) {
+//   var komunikat1 = infoL;
+//   var infoRejestracji1 = infoR;
+//   res.render("registrationSuccessful", {info: komunikat1, lekarz: infoRejestracji1, checkbox: kom});
+// });
 //Server
 app.listen(3000, function () {
   console.log("Server starts on port 3000");

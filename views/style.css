@@ -3899,7 +3899,11 @@ body {
   font-size: 22px; }
 
 .navigation__item {
-  padding-left: 20px; }
+  padding-left: 20px;  }
+
+.navigation__item_hidden {
+  padding-left: 20px;
+  visibility: hidden;}
 
 .navigation__link {
   position: relative; }

@@ -1,25 +1,75 @@
-{>"index_layout" /}
+<!DOCTYPE html>
+<html>
+<head>
+  <link type="text/css" rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kaushan+Script|Poiret+One">
+  <title>twójLekarz</title></head>
+<body>
+<section class="top-bar">
+  <nav class="top-bar-left">
+    <ul data-dropdown-menu="" class="dropdown menu"><a href="/">
+      <li class="menu-text">twójLekarz</li>
+    </a></ul>
+  </nav>
+  <nav class="top-bar-right">
+    <ul data-dropdown-menu="" class="dropdown menu">
+      {#login}
+      <li class="{zalogujStyle}"><a href="signIn"  class="navigation__link">Zaloguj się</a></li>
+      <li class="{zalogujStyle}"><a href="register" class="navigation__link">Zarejestruj się</a></li>
+      <li class="{imieStyle}"><a>Zalogowany jako {imieZalogowany}</a></li>
+      {/login}
+    </ul>
+  </nav>
+</section>
+<section id="intro" class="section--full section--fixed">
+  <div class="row">
+    <div class="center-vertically">
+      <div class="columns medium-6"></div>
+      <div class="columns medium-6"><h1 class="green">Znajdź lekarza i umów wizytę</h1>
+        <p class="darkest">Poszukaj wśród najlepszych lekarzy w Polsce,<br>i Ty zasługujesz na najlepszą opiekę!</p>
+        <div class="search">
+          <form method="post" action="/getDoctors">
+            <div class="large-5 small-5 columns"><input type="text" id="doctor" name="selectedDoctor" placeholder="Znajdź lekarza" list="doctorList"></div>
+            <div class="large-5 small-5 columns"><input type="text" id="city" name="selectedCity" placeholder="Znajdź miasto" list="cityList"></div>
 
-{<select_doctor}
+            <button class="button small">Szukaj</button>
+          </form>
 
-  <div class="search">
-    <form method="post" action="/getDoctors">
-    <div class="large-5 small-5 columns"><input type="text" id="doctor" name="selectedDoctor" placeholder="Znajdź lekarza" list="doctorList"></div>
-    <div class="large-5 small-5 columns"><input type="text" id="city" name="selectedCity" placeholder="Znajdź miasto" list="cityList"></div>
-
-    <button class="button small">Szukaj</button>
-    </form>
-
-    <datalist id="doctorList">
-      {#spec}
-        <option value="{specjalnosc}"></option>
-      {/spec}
-    </datalist>
-    <datalist id="cityList">
-      {#miasta}
-        <option value="{miasto}"></option>
-      {/miasta}
-    </datalist>
+          <datalist id="doctorList">
+            {#spec}
+              <option value="{specjalnosc}"></option>
+            {/spec}
+          </datalist>
+          <datalist id="cityList">
+            {#miasta}
+              <option value="{miasto}"></option>
+            {/miasta}
+          </datalist>
+        </div>
+      </div>
+    </div>
   </div>
+</section>
+<section id="highlights" class="section">
+  <div class="row">
+    <div class="columns medium-4">
+      <div class="text-center"><i class="fa fa-user-md fa-5x"></i>
+        <h3 class="h3">100 000 lekarzy</h3></div>
+      <p class="paragraph">Dajemy Ci dostęp do ponad 100 000 lekarzy w Polsce.</p></div>
+    <div class="columns medium-4">
+      <div class="text-center"><i class="fa fa-clock-o fa-5x"></i>
+        <h3 class="h3">Szybkość</h3></div>
+      <p class="paragraph">Wybierz lekarza, dogodny termin i umów wizytę w 3 minuty.</p></div>
+    <div class="columns medium-4">
+      <div class="text-center"><i class="fa fa-commenting-o fa-5x"></i>
+        <h3 class="h3">Profesjonalizm</h3></div>
+      <p class="paragraph">Bądź poinformowany o wszelkich zmianach jak najszybciej to możliwe.</p></div>
+  </div>
+</section>
+<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/foundation/6.2.0/foundation.min.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
 
-{/select_doctor}

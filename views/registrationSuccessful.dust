@@ -18,22 +18,24 @@
   <div class="row"><p class="fontSuccess darkest">{glowny}</p>
     <p class="checkEmail">{drugieInfo}</p>
     <br/><br/>
-    <div class="row"><p class="appointmentdata darkest">Dane o wizycie</p>
     {#lekarz}
+    <div class="row"><p class="appointmentdata darkest">Dane o wizycie</p>
+
     <p class="checkEmail">Termin: {data}, {godzina}</p>
       <br/>
       <p class="checkEmail">Lekarz: {lekarz}, {specjalnosc}</p>
       <br/>
       <p class="checkEmail">Adres: {adres}</p>
       <br/>
-      <p class="checkEmail">Cena: {cena}</p>
+      <p class="checkEmail">Cena: {cena}zł</p>
     </div>
-    {/lekarz}
+
   </div>
+    {/lekarz}
   {/info}
 </section>
 <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/foundation/6.2.0/foundation.min.js"></script>
-<script src="main.js"></script>
+<script src="/main.js"></script>
 </body>
 </html>

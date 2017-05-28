@@ -1,55 +1,83 @@
-{>"results_layout" /}
-
-{<selected_doctor}
-
+<!DOCTYPE html>
+<html>
+<head>
+  <link type="text/css" rel="stylesheet" href="/style1.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kaushan+Script|Poiret+One">
+  <link
+    href="https://fonts.googleapis.com/css?family=Roboto:400,400italic,700|Alice|Gentium+Basic:700italic,400italic|Gentium+Book+Basic:400,700italic,400italic|Oswald|Lora:400italic,700italic|Cuprum:400,700"
+    rel="stylesheet" type="text/css">
+  <title>twójLekarz</title></head>
+<body>
+<section class="top-bar">
+  <nav class="top-bar-left">
+    <ul data-dropdown-menu="" class="dropdown menu"><a href="/">
+      <li class="menu-text">twójLekarz</li>
+    </a></ul>
+  </nav>
+  <nav class="top-bar-right">
+    <ul data-dropdown-menu="" class="dropdown menu">
+      {#login}
+        <li class="{zalogujStyle}"><a href="signIn"  class="navigation__link">Zaloguj się</a></li>
+        <li class="{zalogujStyle}"><a href="register" class="navigation__link">Zarejestruj się</a></li>
+        <li class="{imieStyle}"><a>Zalogowany jako {imieZalogowany}</a></li>
+      {/login}
+    </ul>
+  </nav>
+</section>
   {#doktor}
   <section class="results section"><p class="mainResultfont">{infoIlosc} {specjalnosc}, {miasto}</p>
   {/doktor}
   {#list}
     <form action="/selectDoctor/{id_lekarza}" method="get">
-    <div class="resultsField">
-      <div class="topField">
-        <div class="medium-7 columns"></div>
-        <div class="medium-5 columns">
-          {#dni}
-          <div class="datefont leftf">Dziś {today}</div>
-          <div class="datefont leftf">Jutro {tommorow}</div>
-          <div class="datefont leftf">Pojutrze {tommorowNext}</div>
-          {/dni}
+      <div class="resultsField">
+        <div class="topField">
+          <div class="medium-7 columns"></div>
+          <div class="medium-5 columns">
+            {#dni}
+              <div class="datefont leftf">Dziś {today}</div>
+              <div class="datefont leftf">Jutro {tommorow}</div>
+              <div class="datefont leftf">Pojutrze {tommorowNext}</div>
+            {/dni}
+          </div>
         </div>
-      </div>
-      <div class="leftField">
-        <div class="nameField">
-          <div class="nameFieldfont">{imie} {nazwisko}</div>
-          <div class="proffesionfont">{specjalnosc}</div>
+        <div class="leftField">
+          <div class="nameField">
+            <div class="nameFieldfont">{imie} {nazwisko}</div>
+            <div class="proffesionfont">{specjalnosc}</div>
+          </div>
+          <div class="addressField"><b>Adress:</b><span class="fontaddress">{adres}, {miasto}</span><br><br>
+            <b>Telefon:</b><span class="fontaddress">{telefon}</span><br><br>
+            <div class="buttonvisit" id="lekarz_{idlekarza}">
+              <button class="button small" href="#lekarz_{idlekarza}"><i aria-hidden="true" class="fa fa-calendar"></i>&#160; Umów wizytę</button>
+            </div>
+          </div>
         </div>
-        <div class="addressField"><b>Adress:</b><span class="fontaddress">{adres}, {miasto}</span><br><br>
-          <b>Telefon:</b><span class="fontaddress">{telefon}</span><br><br>
-          <div class="buttonvisit" id="lekarz_{idlekarza}">
-            <button class="button small" href="#lekarz_{idlekarza}"><i aria-hidden="true" class="fa fa-calendar"></i>&#160; Umów wizytę</button>
+        <div class="rightField">
+          <div class="datesField">
+            <div class="oneday">
+              {#dd1}
+                <div class="{dd1Zajete[$idx]}">{dd1[$idx]}</div>
+              {/dd1}
+            </div>
+            <div class="oneday">
+              {#dd2}
+                <div class="{dd2Zajete[$idx]}">{dd2[$idx]}</div>
+              {/dd2}
+            </div>
+            {#dd3}
+              <div class="{dd3Zajete[$idx]}">{dd3[$idx]}</div>
+            {/dd3}
           </div>
         </div>
       </div>
-      <div class="rightField">
-        <div class="datesField">
-          <div class="oneday">
-            {#dd1}
-            <div class="{dd1Zajete[$idx]}">{dd1[$idx]}</div>
-            {/dd1}
-          </div>
-          <div class="oneday">
-           {#dd2}
-            <div class="{dd2Zajete[$idx]}">{dd2[$idx]}</div>
-            {/dd2}
-          </div>
-          {#dd3}
-            <div class="{dd3Zajete[$idx]}">{dd3[$idx]}</div>
-          {/dd3}
-        </div>
-      </div>
-    </div>
     </form>
   </section>
-
   {/list}
-{/selected_doctor}
+<br><br><br>
+<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/foundation/6.2.0/foundation.min.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
+

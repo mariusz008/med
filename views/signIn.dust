@@ -32,7 +32,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="medium-6 columns small-1"><a href="register.html"><p>Nie masz konta? Zarejestruj się!</p></a></div>
+      <div class="medium-6 columns small-1"><a href="register.dust"><p>Nie masz konta? Zarejestruj się!</p></a></div>
     </div>
   </form>
 </section>
