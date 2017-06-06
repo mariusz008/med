@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link type="text/css" rel="stylesheet" href="/style1.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kaushan+Script|Poiret+One">
+  <title>twójLekarz</title></head>
+<body>
+<section class="top-bar">
+  <nav class="top-bar-left">
+    <ul data-dropdown-menu="" class="dropdown menu"><a href="/">
+      <li class="menu-text">twójLekarz</li>
+    </a></ul>
+  </nav>
+</section>
+<section class="form_"><!--form.register__form-->
+  <form data-abide="" novalidate="" class="register__form" method="post" action="/register">
+    <div data-abide-error="" style="display: none;" class="alert callout"><p><i class="fi-alert"></i> There are some
+      errors in your form.</p></div>
+    <p class="register__title row darkest">Zacznij od utworzenia konta w serwisie twójLekarz</p>
+    <div class="row">
+      <div class="medium-6 columns">
+        <label>Imię
+          <input type="text" name="Imie" maxlength="25" pattern="[A-Za-z]{3,25}">
+          <span class="form-error">Imię powinno mieć minumium trzy litery</span>
+        </label>
+      </div>
+      <div class="medium-6 columns">
+        <label>Nazwisko
+          <input type="text" name="Nazwisko" maxlength="25" pattern="[A-Za-z]{3,25}">
+          <span class="form-error">Nazwisko powinno mieć minumium trzy litery</span>
+        </label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="medium-6 columns"><label>Hasło<input id="password" type="password" name="Haslo"
+                                                       placeholder="yeti4preZ" aria-describedby="exampleHelpText"
+                                                       required="" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+        <span class="form-error">Hasło powinno posiadać przynajmniej 1 liczbę, 1 dużą i małą literę oraz minimum 8 znaków</span></label>
+      </div>
+      <div class="medium-6 columns"><label>Powtórz hasło<input type="password" placeholder="yeti4preZ"
+                                                               aria-describedby="exampleHelpText2" required=""
+                                                               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" data-equalto="password">
+        <span class="form-error">Hasła sie nie zgadzają, wpisz hasło jeszcze raz!</span></label></div>
+    </div>
+    <div class="row">
+      <div class="medium-6 columns">
+        <label>Pesel
+          <input type="text" name="Pesel" placeholder="54022405478"
+                 aria-describedby="exampleHelpText" required=""
+                 maxlength="11" pattern="\d{11,11}">
+          <span class="form-error">Pesel powinien miec 11 cyfr</span></label></div>
+      <div class="medium-6 columns"><label>Telefon<input type="text" name="Telefon" placeholder="725605987"
+                                                         aria-describedby="exampleHelpText" required=""
+                                                         maxlength="9" pattern="\d{9,9}">
+        <span class="form-error">Numer telefonu nie jest poprawny</span></label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="medium-6 columns"><label>E-mail<input type="text" name="Email" placeholder="ela@wp.pl"
+                                                        aria-describedby="exampleHelpText" required="" pattern="email"></label>
+        <!--pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"-->
+      </div>
+    </div>
+    <div class="row">
+      <div class="medium-6 columns">
+        <button class="button small greencolor">Rejestruj</button>
+      </div>
+    </div>
+  </form>
+</section>
+<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/foundation/6.2.0/foundation.min.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
