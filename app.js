@@ -8,7 +8,10 @@ var express = require('express'),
   fs = require('fs'),
   passwordHash = require('password-hash'),
   router = express.Router(),
-  //mainJS = require("./views/main.js"),
+  mandrill = require('node-mandrill')('nf_JQXhOdLE7yBgZM_mgnA'),
+  jquery = require('jquery'),
+  nodemailer = require('nodemailer'),
+  xoauth2 = require('xoauth2'),
   app = express();
 var cheerio = require('cheerio');
 
@@ -28,6 +31,28 @@ app.use(express.static(path.join(__dirname, 'views')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  secure: false,
+  port: 25,
+  auth: {
+    user: 'erejestracja.znanylekarz@gmail.com',
+    pass: 'znanyLekarz123'
+  },
+  tls: {
+    rejectUnauthorized: false
+  }
+})
+
+var mailTo, mailSubject, mailText;
+
+var mailOptions = {
+  from: 'erejestracja.znanylekarz@gmail.com',
+  to: mailTo,
+  subject: mailSubject,
+  text: mailText
+}
+
 var userPesel, userImie, userNazwisko, userEmail, userTelefon, userZalogowany = false;
 var selectedDoctorVar, selectedCityVar = "";
 var specjalnosci, miasta, specIlosc, miastaIlosc;
@@ -45,7 +70,6 @@ var daneZalogowany = { "imieZalogowany": userImie, "zalogujStyle": zalogujStyle,
 router.get('/', function (req, res) {
   specjalnosci="";
   miasta="";
-
   pg.connect(connect, function(err, client, done) {
     if(err) {
       return console.error('error fetching client from pool', err);
@@ -85,6 +109,20 @@ app.post('/register', function (req, res) {
           return console.error('register error', err);
         }
         done();
+        var mailOptions = {
+          from: 'erejestracja.znanylekarz@gmail.com',
+          to: req.body.Email,
+          subject: "Rejestracja w serwisie twójLekarz",
+          text: "Zostałeś zarejestrowny w serwisie twójLekarz, w którym będziesz miał(a) możliwość zapisania się na wizytę do najlepszych specjalistów z całej Polski.\n \n" +
+          "Dane do twojego konta \n PESEL (login): "+req.body.Pesel+", imie: "+req.body.Imie+", nazwisko: "+req.body.Nazwisko+", telefon: "+req.body.Telefon
+        }
+        transporter.sendMail(mailOptions, function (err, res) {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log('email sent to '+req.body.Email);
+          }
+        })
         res.redirect("register_success.html");
       });
   });
@@ -583,10 +621,26 @@ app.post('/submitRegistrator/:id', function(req, res) {
               "data": req.body.Data,
               "godzina": req.body.Godzina,
               "lekarz": req.body.Lekarz,
-              "specjalnosc": req.body.Dziedzina,
+              "specjalnosc": req.body.Lekarz,
               "adres": req.body.Adres,
               "cena": cena
             };
+
+            var mailOptions = {
+              from: 'erejestracja.znanylekarz@gmail.com',
+              to: req.body.Email,
+              subject: "Potwierdzenie umówienia wizyty w serwisie twójLekarz",
+              text: "cos tutaj pieknego napiszemy \n" +
+              "Dane spotkania: "+req.body.Data+", "+req.body.Godzina+", "+req.body.Lekarz+", "+req.body.Telefon+", "+req.body.Adres+", "+cena
+            }
+
+            transporter.sendMail(mailOptions, function (err, res) {
+              if (err) {
+                console.log(err);
+              } else {
+                console.log('email sent to '+req.body.Email);
+              }
+            })
           }
           infoL = komunikat;
           infoR = infoRejestracji;
@@ -605,16 +659,9 @@ app.post('/submitRegistrator/:id', function(req, res) {
       var url = '/selectedHour/doc='+ req.params.id +'&d=' + d + '&h=' + g + '&t=hour';
      res.redirect(url);
     }
-
-
   });
 });
 
-// app.get('/registrationEnded', function(req, res) {
-//   var komunikat1 = infoL;
-//   var infoRejestracji1 = infoR;
-//   res.render("registrationSuccessful", {info: komunikat1, lekarz: infoRejestracji1, checkbox: kom});
-// });
 //Server
 app.listen(3000, function () {
   console.log("Server starts on port 3000");
@@ -736,3 +783,48 @@ function getActualOfficialDay(x) {
   }
   return day;
 }
+
+function sendEmail( _name, _email, _subject, _message) {
+  mandrill('/messages/send', {
+    message: {
+      to: [{email: _email , name: _name}],
+      from_email: 'erejestracja.znanylekarz@gmail.com',
+      subject: _subject,
+      text: _message
+    }
+  }, function(error, response){
+    if (error) {
+      console.log( error );
+      console.log("error");
+    }
+    else {
+      console.log(response);
+      console.log("poszło");
+    }
+  });
+  console.log("wyslane do: " + _email );
+  //
+  // $.ajax({
+  //   type: 'POST',
+  //   url: 'https://mandrillapp.com/api/1.0/messages/send.json',
+  //   data: {
+  //     'key': '0a5e8b522e42bcfd389286eed5b26232-us16',
+  //     'message': {
+  //       'from_email': 'erejestracja.znanylekarz@gmail.com',
+  //       'to': [
+  //         {
+  //           'email': 'mariuszz4554@gmail.com',
+  //           'name': 'RECIPIENT NAME (OPTIONAL)',
+  //           'type': 'to'
+  //         }
+  //       ],
+  //       'autotext': 'true',
+  //       'subject': 'YOUR SUBJECT HERE!',
+  //       'html': 'YOUR EMAIL CONTENT HERE! YOU CAN USE HTML!'
+  //     }
+  //   }
+  // }).done(function(response) {
+  //   console.log(response); // if you're into that sorta thing
+  // });
+}
+
