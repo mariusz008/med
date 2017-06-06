@@ -113,9 +113,10 @@ app.post('/register', function (req, res) {
           from: 'erejestracja.znanylekarz@gmail.com',
           to: req.body.Email,
           subject: "Rejestracja w serwisie twójLekarz",
-          text: "Zostałeś zarejestrowny w serwisie twójLekarz, w którym będziesz miał(a) możliwość zapisania się na wizytę do najlepszych specjalistów z całej Polski.\n \n" +
-          "Dane do twojego konta \n PESEL (login): "+req.body.Pesel+", imie: "+req.body.Imie+", nazwisko: "+req.body.Nazwisko+", telefon: "+req.body.Telefon
-        }
+          html: "<body style='background-color: white'> <div class='border' style=' background-color: #F1F2EB; height: 500px; width: 600px; border: 2px solid black; margin-right: auto; margin-left: auto;'> <div class='content' style=' margin-top:0px; height: 80px;  background-color: #4A4A48'><h1 style='font-size: 25px; text-align: center; color: white; padding-top: 10px;'>Gratuluję udało Ci się zarestrowac poprawnie do Portalu twójLekarz</h1></div> <div style='text-align: center; font-size: 15px; padding-top:45px;'>Twoje dane to:</div> <div class='footer' style=' padding-left: 15px;padding-top: 300px; font-size: 12px;'>*Jeśli to nie ty chcialeś się zarejstrować w potralu twójLekarz skontaktujsie z administratorem </div> </div> </body>"
+          // html: "<body style='background-color: white'> <div class='border' style=' background-color: #F1F2EB; height: 500px; width: 600px; border: 2px solid black; margin-right: auto; margin-left: auto;'> <div class='content' style=' margin-top:0px; height: 80px;  background-color: #4A4A48'><h1 style='font-size: 25px; text-align: center; color: white; padding-top: 10px;'>Gratuluję udało Ci się zarestrowac poprawnie do Portalu twójLekarz</h1></div> <span style='width: 50%; '><img style='padding-top: 20px;' src='views/images/lekarz.png'></span><div style='text-align: center; font-size: 15px; padding-top:45px; float: left; width: 50%;'>Twoje dane to:</div> <div class='footer' style=' padding-left: 15px;padding-top: 300px; font-size: 12px;'>*Jeśli to nie ty chcialeś się zarejstrować w potralu twójLekarz skontaktujsie z administratorem </div> </div> </body>"
+
+          }
         transporter.sendMail(mailOptions, function (err, res) {
           if (err) {
             console.log(err);
